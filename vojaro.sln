@@ -1,19 +1,42 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{EDCA6AAF-FB97-421C-AC66-910C77771431}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vojaro.core", "backend\vojaro.core\vojaro.core.csproj", "{A93C4AE1-C708-4877-BAD0-02EEC6769292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vojaro.core", "backend\vojaro.core\vojaro.core.csproj", "{A93C4AE1-C708-4877-BAD0-02EEC6769292}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vojaro.infrastructure", "backend\vojaro.infrastructure\vojaro.infrastructure.csproj", "{E8427E20-95D2-4085-964C-40A2EBCF4F61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vojaro.infrastructure", "backend\vojaro.infrastructure\vojaro.infrastructure.csproj", "{E8427E20-95D2-4085-964C-40A2EBCF4F61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vojaro.service", "backend\vojaro.service\vojaro.service.csproj", "{E060F392-B097-4249-BED7-9386B7F138CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vojaro.service", "backend\vojaro.service\vojaro.service.csproj", "{E060F392-B097-4249-BED7-9386B7F138CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vojaro.api", "backend\vojaro.api\vojaro.api.csproj", "{8E796CBF-6D58-41C8-AD44-D9E766927A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vojaro.api", "backend\vojaro.api\vojaro.api.csproj", "{8E796CBF-6D58-41C8-AD44-D9E766927A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vojaro.test", "backend\vojaro.test\vojaro.test.csproj", "{A266252C-8206-49BB-BF02-CC79B33DB1B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vojaro.test", "backend\vojaro.test\vojaro.test.csproj", "{A266252C-8206-49BB-BF02-CC79B33DB1B5}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "vojaro.angular", "frontend\vojaro.angular\", "{819F6A1F-971B-4C2D-8A20-010A070A3DDB}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_52621"
+		Debug.AspNetCompiler.PhysicalPath = "frontend\vojaro.angular\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52621\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_52621"
+		Release.AspNetCompiler.PhysicalPath = "frontend\vojaro.angular\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52621\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52621"
+		SlnRelativePath = "frontend\vojaro.angular\"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{008CD8B2-BF43-4209-B067-6D3D6A1E4A40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,9 +46,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A93C4AE1-C708-4877-BAD0-02EEC6769292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -88,6 +108,20 @@ Global
 		{A266252C-8206-49BB-BF02-CC79B33DB1B5}.Release|x64.Build.0 = Release|Any CPU
 		{A266252C-8206-49BB-BF02-CC79B33DB1B5}.Release|x86.ActiveCfg = Release|Any CPU
 		{A266252C-8206-49BB-BF02-CC79B33DB1B5}.Release|x86.Build.0 = Release|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Debug|x64.Build.0 = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Debug|x86.Build.0 = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Release|x64.ActiveCfg = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Release|x64.Build.0 = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Release|x86.ActiveCfg = Debug|Any CPU
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB}.Release|x86.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A93C4AE1-C708-4877-BAD0-02EEC6769292} = {EDCA6AAF-FB97-421C-AC66-910C77771431}
@@ -95,5 +129,9 @@ Global
 		{E060F392-B097-4249-BED7-9386B7F138CB} = {EDCA6AAF-FB97-421C-AC66-910C77771431}
 		{8E796CBF-6D58-41C8-AD44-D9E766927A90} = {EDCA6AAF-FB97-421C-AC66-910C77771431}
 		{A266252C-8206-49BB-BF02-CC79B33DB1B5} = {EDCA6AAF-FB97-421C-AC66-910C77771431}
+		{819F6A1F-971B-4C2D-8A20-010A070A3DDB} = {008CD8B2-BF43-4209-B067-6D3D6A1E4A40}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73CFCF4B-0193-44E9-B2C5-C00694C0A2E8}
 	EndGlobalSection
 EndGlobal
