@@ -7,8 +7,8 @@ namespace vojaro.core.Entities
     {
         public Asignatura()
         {
-            AsignaturaCorrelativaAsignatura = new HashSet<AsignaturaCorrelativa>();
-            AsignaturaCorrelativaCorrelativa = new HashSet<AsignaturaCorrelativa>();
+            CorrelativasAnteriores = new HashSet<AsignaturaCorrelativa>();
+            CorrelativasPosteriores = new HashSet<AsignaturaCorrelativa>();
         }
 
         public long? UniversidadId { get; set; }
@@ -21,7 +21,7 @@ namespace vojaro.core.Entities
 
         public virtual Carrera Carrera { get; set; }
         public virtual Universidad Universidad { get; set; }
-        public virtual ICollection<AsignaturaCorrelativa> AsignaturaCorrelativaAsignatura { get; set; }
-        public virtual ICollection<AsignaturaCorrelativa> AsignaturaCorrelativaCorrelativa { get; set; }
+        public virtual ICollection<AsignaturaCorrelativa> CorrelativasAnteriores { get; set; }
+        public virtual ICollection<AsignaturaCorrelativa> CorrelativasPosteriores { get; set; }
     }
 }

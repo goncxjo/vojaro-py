@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace vojaro.core.Entities
+﻿namespace vojaro.core.Entities
 {
     public partial class AsignaturaCorrelativa
     {
-        public long Id { get; set; }
-        public long? AsignaturaId { get; set; }
-        public long? CorrelativaId { get; set; }
+        public long AsignaturaId { get; set; }
+        public long CorrelativaId { get; set; }
         public bool Regularizada { get; set; }
         public bool Aprobada { get; set; }
 

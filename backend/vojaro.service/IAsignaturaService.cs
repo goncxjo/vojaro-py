@@ -8,6 +8,7 @@ namespace vojaro.service
 {
     public interface IAsignaturaService
     {
-        IEnumerable<Asignatura> ObtenerCorrelativas(long idAsignatura);
+        IEnumerable<Asignatura> ObtenerCorrelativas(long id);
+        Asignatura ObtenerAsignatura(long idAsignatura);
     }
 }

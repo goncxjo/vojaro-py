@@ -123,45 +123,32 @@ namespace vojaro.infrastructure.Data
                     .WithMany(p => p.Asignatura)
                     .HasForeignKey(d => d.UniversidadId)
                     .HasConstraintName("FK__Asignatur__Unive__4CA06362");
+
+                entity.HasMany(d => d.CorrelativasPosteriores)
+                    .WithOne(p => p.Asignatura)
+                    .HasForeignKey(d => d.AsignaturaId);
+
+                entity.HasMany(d => d.CorrelativasAnteriores)
+                    .WithOne(p => p.Correlativa)
+                    .HasForeignKey(d => d.CorrelativaId);
             });
 
             modelBuilder.Entity<AsignaturaCorrelativa>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.AsignaturaId).HasColumnName("AsignaturaID");
-
-                entity.Property(e => e.CorrelativaId).HasColumnName("CorrelativaID");
-
-                entity.HasOne(d => d.Asignatura)
-                    .WithMany(p => p.AsignaturaCorrelativaAsignatura)
-                    .HasForeignKey(d => d.AsignaturaId)
-                    .HasConstraintName("FK__Asignatur__Asign__5441852A");
-
-                entity.HasOne(d => d.Correlativa)
-                    .WithMany(p => p.AsignaturaCorrelativaCorrelativa)
-                    .HasForeignKey(d => d.CorrelativaId)
-                    .HasConstraintName("FK__Asignatur__Corre__5535A963");
+                entity.HasKey(e => new { e.AsignaturaId, e.CorrelativaId });
             });
 
             modelBuilder.Entity<Carrera>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
-
                 entity.Property(e => e.DepartamentoUniversidadId).HasColumnName("DepartamentoUniversidadID");
-
                 entity.Property(e => e.Duracion).HasDefaultValueSql("((1))");
-
                 entity.Property(e => e.FechaCarga).HasColumnType("date");
-
                 entity.Property(e => e.FechaModificacion).HasColumnType("date");
-
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255);
-
                 entity.Property(e => e.TipoCarreraId).HasColumnName("TipoCarreraID");
-
                 entity.Property(e => e.UniversidadId).HasColumnName("UniversidadID");
 
                 entity.HasOne(d => d.DepartamentoUniversidad)

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using vojaro.core.Entities;
+using vojaro.core.Interfaces;
 using vojaro.infrastructure.Data;
 
 namespace vojaro.infrastructure.Repositories
