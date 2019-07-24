@@ -2,12 +2,12 @@
  
 namespace vojaro.core.Entities
 {
-    public class BaseEntidad
+    public interface IBaseEntidad
     {
-        public long Id { get; set; }
-        public DateTime FechaCarga { get; set; }
-        public DateTime? FechaModificacion { get; set; }
-        public long? ModificadoPor { get; set; }
-        public int Version { get; set; }
+        long Id { get; }
+        DateTime FechaCarga { get; set; }
+        DateTime? FechaModificacion { get; set; }
+        long? ModificadoPor { get; set; }
+        int Version { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using vojaro.core.Entities;
 
 namespace vojaro.core.Interfaces
 {
-    public interface IRepository<T> where T : BaseEntidad
+    public interface IRepository<T> where T : class
     {
         IQueryable<T> ObtenerTodos();
         T Obtener(long id);

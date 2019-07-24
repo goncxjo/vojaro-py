@@ -29,25 +29,34 @@ namespace vojaro.test.Services
 
             var universidades = new List<Universidad>()
             {
-                new Universidad { Id = 1, Nombre = "Universidad Nacional de Avellaneda", Codigo = "UNDAV" }
+                new Universidad { Codigo = "UNDAV", Nombre = "Universidad Nacional de Avellaneda" }
             };
 
             var ami = new Asignatura { Id = 1, Nombre = "Análisis Matemático I" };
-            var inf = new Asignatura { Id = 3, Nombre = "Informática" };
+            var inf = new Asignatura { Id = 2, Nombre = "Informática" };
+            var fii = new Asignatura { Id = 3, Nombre = "Física I" };
             var aed = new Asignatura { Id = 4, Nombre = "Algoritmos y Estructura de Datos" };
             var aga = new Asignatura { Id = 5, Nombre = "Álgebra y Geometría Analítica" };
+            var api = new Asignatura { Id = 6, Nombre = "Algoritmos y Programación I" };
             var asignaturas = new List<Asignatura>() { ami, inf, aed, aga };
 
             var correlativas = new List<AsignaturaCorrelativa>()
             {
                 new AsignaturaCorrelativa { Asignatura = ami, Correlativa = aed, Aprobada = true },
                 new AsignaturaCorrelativa { Asignatura = ami, Correlativa = aga, Aprobada = true },
-                new AsignaturaCorrelativa { Asignatura = inf, Correlativa = aed, Aprobada = true }
+                new AsignaturaCorrelativa { Asignatura = ami, Correlativa = fii, Aprobada = true },
+                new AsignaturaCorrelativa { Asignatura = inf, Correlativa = aed, Aprobada = true },
+                new AsignaturaCorrelativa { Asignatura = aed, Correlativa = api, Aprobada = true }
+            };
+
+            var planes = new List<PlanCarrera>()
+            {
+                new PlanCarrera { CarreraId = 1, Anio = 2012, Asignaturas = { ami, inf, aed, aga }  }
             };
 
             var carreras = new List<Carrera>()
             {
-                new Carrera { Id = 1, Nombre = "Ingeniería Informática", Duracion = 5, TipoCarrera = tipoCarreras[1], Asignatura = { ami, inf, aed, aga } }
+                new Carrera { Id = 1, Nombre = "Ingeniería Informática", Duracion = 5, TipoCarrera = tipoCarreras[1], Planes = planes }
             };
 
             context.Set<TipoCarrera>().AddRange(tipoCarreras);

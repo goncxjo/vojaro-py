@@ -3,25 +3,28 @@ using System.Collections.Generic;
 
 namespace vojaro.core.Entities
 {
-    public partial class Asignatura : BaseEntidad
+    public partial class Asignatura : IBaseEntidad
     {
         public Asignatura()
         {
-            CorrelativasAnteriores = new HashSet<AsignaturaCorrelativa>();
-            CorrelativasPosteriores = new HashSet<AsignaturaCorrelativa>();
+            Dependencias = new HashSet<AsignaturaCorrelativa>();
+            Correlativas = new HashSet<AsignaturaCorrelativa>();
         }
 
-        public long? UniversidadId { get; set; }
-        public long? CarreraId { get; set; }
+        public long? PlanCarreraId { get; set; }
         public string Nombre { get; set; }
         public int Cuatrimestre { get; set; }
         public byte CargaHoraria { get; set; }
-        public bool EsAsignaturaComun { get; set; }
         public string Codigo { get; set; }
 
-        public virtual Carrera Carrera { get; set; }
-        public virtual Universidad Universidad { get; set; }
-        public virtual ICollection<AsignaturaCorrelativa> CorrelativasAnteriores { get; set; }
-        public virtual ICollection<AsignaturaCorrelativa> CorrelativasPosteriores { get; set; }
+        public virtual PlanCarrera PlanCarrera { get; set; }
+        public virtual ICollection<AsignaturaCorrelativa> Dependencias { get; set; }
+        public virtual ICollection<AsignaturaCorrelativa> Correlativas { get; set; }
+
+        public long Id { get; set; }
+        public DateTime FechaCarga { get; set; }
+        public DateTime? FechaModificacion { get; set; }
+        public long? ModificadoPor { get; set; }
+        public int Version { get; set; }
     }
 }

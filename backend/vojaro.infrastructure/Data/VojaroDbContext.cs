@@ -21,6 +21,7 @@ namespace vojaro.infrastructure.Data
         public virtual DbSet<Carrera> Carrera { get; set; }
         public virtual DbSet<CarreraOrientacion> CarreraOrientacion { get; set; }
         public virtual DbSet<DepartamentoUniversidad> DepartamentoUniversidad { get; set; }
+        public virtual DbSet<PlanCarrera> PlanCarrera { get; set; }
         public virtual DbSet<SedeUniversidad> SedeUniversidad { get; set; }
         public virtual DbSet<TipoCarrera> TipoCarrera { get; set; }
         public virtual DbSet<Universidad> Universidad { get; set; }
@@ -40,67 +41,36 @@ namespace vojaro.infrastructure.Data
 
             modelBuilder.Entity<Alumno>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
+                entity.HasKey(e => e.DNI);
+                entity.Property(e => e.DNI).HasColumnName("DNI");
                 entity.Property(e => e.Apellido)
                     .IsRequired()
                     .HasMaxLength(255);
-
-                entity.Property(e => e.Ciudad).HasMaxLength(255);
-
-                entity.Property(e => e.Dirección).HasMaxLength(255);
-
                 entity.Property(e => e.FechaCarga).HasColumnType("date");
-
                 entity.Property(e => e.FechaModificacion).HasColumnType("date");
-
                 entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Pais).HasMaxLength(255);
-
-                entity.Property(e => e.Telefono1)
-                    .HasColumnName("Telefono_1")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Telefono2)
-                    .HasColumnName("Telefono_2")
                     .HasMaxLength(255);
             });
 
             modelBuilder.Entity<AlumnoAsignatura>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.AlumnoId).HasColumnName("AlumnoID");
-
-                entity.Property(e => e.CarreraId).HasColumnName("CarreraID");
-
+                entity.HasKey(e => new { e.AlumnoId, e.CarreraId });
                 entity.Property(e => e.EstadoAsignatura)
                     .IsRequired()
                     .HasMaxLength(100);
-
                 entity.Property(e => e.FechaCarga).HasColumnType("date");
-
-                entity.Property(e => e.FechaModificacion).HasColumnType("date");
-
                 entity.HasOne(d => d.Alumno)
                     .WithMany(p => p.AlumnoAsignatura)
                     .HasForeignKey(d => d.AlumnoId)
                     .HasConstraintName("FK__AlumnoAsi__Alumn__5DCAEF64");
-
-                entity.HasOne(d => d.Carrera)
-                    .WithMany(p => p.AlumnoAsignatura)
-                    .HasForeignKey(d => d.CarreraId)
-                    .HasConstraintName("FK__AlumnoAsi__Carre__5EBF139D");
             });
 
             modelBuilder.Entity<Asignatura>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CarreraId).HasColumnName("CarreraID");
+                entity.Property(e => e.PlanCarreraId).HasColumnName("CarreraID");
 
                 entity.Property(e => e.Codigo).HasMaxLength(10);
 
@@ -112,23 +82,16 @@ namespace vojaro.infrastructure.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.UniversidadId).HasColumnName("UniversidadID");
+                entity.HasOne(d => d.PlanCarrera)
+                    .WithMany(p => p.Asignaturas)
+                    .HasForeignKey(d => d.PlanCarreraId)
+                    .HasConstraintName("FK__Asignatur__PlanC__4D94879B");
 
-                entity.HasOne(d => d.Carrera)
-                    .WithMany(p => p.Asignatura)
-                    .HasForeignKey(d => d.CarreraId)
-                    .HasConstraintName("FK__Asignatur__Carre__4D94879B");
-
-                entity.HasOne(d => d.Universidad)
-                    .WithMany(p => p.Asignatura)
-                    .HasForeignKey(d => d.UniversidadId)
-                    .HasConstraintName("FK__Asignatur__Unive__4CA06362");
-
-                entity.HasMany(d => d.CorrelativasPosteriores)
+                entity.HasMany(d => d.Correlativas)
                     .WithOne(p => p.Asignatura)
                     .HasForeignKey(d => d.AsignaturaId);
 
-                entity.HasMany(d => d.CorrelativasAnteriores)
+                entity.HasMany(d => d.Dependencias)
                     .WithOne(p => p.Correlativa)
                     .HasForeignKey(d => d.CorrelativaId);
             });
@@ -149,7 +112,6 @@ namespace vojaro.infrastructure.Data
                     .IsRequired()
                     .HasMaxLength(255);
                 entity.Property(e => e.TipoCarreraId).HasColumnName("TipoCarreraID");
-                entity.Property(e => e.UniversidadId).HasColumnName("UniversidadID");
 
                 entity.HasOne(d => d.DepartamentoUniversidad)
                     .WithMany(p => p.Carrera)
@@ -160,29 +122,19 @@ namespace vojaro.infrastructure.Data
                     .WithMany(p => p.Carrera)
                     .HasForeignKey(d => d.TipoCarreraId)
                     .HasConstraintName("FK__Carrera__TipoCar__4222D4EF");
-
-                entity.HasOne(d => d.Universidad)
-                    .WithMany(p => p.Carrera)
-                    .HasForeignKey(d => d.UniversidadId)
-                    .HasConstraintName("FK__Carrera__Univers__440B1D61");
             });
 
             modelBuilder.Entity<CarreraOrientacion>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
-
                 entity.Property(e => e.CarreraId).HasColumnName("CarreraID");
-
-                entity.Property(e => e.FechaCarga).HasColumnType("date");
-
-                entity.Property(e => e.FechaModificacion).HasColumnType("date");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255);
 
                 entity.HasOne(d => d.Carrera)
-                    .WithMany(p => p.CarreraOrientacion)
+                    .WithMany(p => p.Orientaciones)
                     .HasForeignKey(d => d.CarreraId)
                     .HasConstraintName("FK__CarreraOr__Carre__48CFD27E");
             });
@@ -195,41 +147,36 @@ namespace vojaro.infrastructure.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.UniversidadId).HasColumnName("UniversidadID");
+                entity.Property(e => e.UniversidadCodigo).HasColumnName("UniversidadCodigo");
 
                 entity.HasOne(d => d.Universidad)
-                    .WithMany(p => p.DepartamentoUniversidad)
-                    .HasForeignKey(d => d.UniversidadId)
+                    .WithMany(p => p.Departamentos)
+                    .HasForeignKey(d => d.UniversidadCodigo)
                     .HasConstraintName("FK__Departame__Unive__3D5E1FD2");
+            });
+
+            modelBuilder.Entity<PlanCarrera>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.HasOne(d => d.Carrera)
+                    .WithMany(p => p.Planes)
+                    .HasForeignKey(d => d.CarreraId)
+                    .HasConstraintName("FK__PlanCarre__Carre__48CFD27E");
             });
 
             modelBuilder.Entity<SedeUniversidad>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Ciudad).HasMaxLength(255);
-
-                entity.Property(e => e.Dirección).HasMaxLength(255);
-
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .ValueGeneratedOnAdd();
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255);
-
-                entity.Property(e => e.Pais).HasMaxLength(255);
-
-                entity.Property(e => e.Telefono1)
-                    .HasColumnName("Telefono_1")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Telefono2)
-                    .HasColumnName("Telefono_2")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.UniversidadId).HasColumnName("UniversidadID");
-
+                entity.Property(e => e.UniversidadCodigo).HasColumnName("UniversidadCodigo");
                 entity.HasOne(d => d.Universidad)
-                    .WithMany(p => p.SedeUniversidad)
-                    .HasForeignKey(d => d.UniversidadId)
+                    .WithMany(p => p.Sedes)
+                    .HasForeignKey(d => d.UniversidadCodigo)
                     .HasConstraintName("FK__SedeUnive__Unive__3A81B327");
             });
 
@@ -246,7 +193,7 @@ namespace vojaro.infrastructure.Data
 
             modelBuilder.Entity<Universidad>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.HasKey(e => e.Codigo);
 
                 entity.Property(e => e.Codigo)
                     .IsRequired()

@@ -22,15 +22,23 @@ namespace vojaro.service
 
         public IEnumerable<Asignatura> ObtenerCorrelativas(long idAsignatura)
         {
-            IEnumerable<Asignatura> asignaturasCorrelativas = new List<Asignatura>();
-            var correlativas = repository.ObtenerTodos().Select(x => x.CorrelativasPosteriores);
+            var asignatura = repository.Obtener(idAsignatura);
 
-            if(correlativas.Any())
+            var asignaturasCorrelativas = new List<Asignatura>();
+            if(asignatura.Dependencias.Any())
             {
-                asignaturasCorrelativas = correlativas.SelectMany(ac => ac.Select(x => x.Correlativa)).Distinct();
+                asignaturasCorrelativas.AddRange(
+                    asignatura.Dependencias.Select(ac => ac.Asignatura).Distinct()
+                );
+            }
+            if (asignatura.Correlativas.Any())
+            {
+                asignaturasCorrelativas.AddRange(
+                    asignatura.Correlativas.Select(ac => ac.Correlativa).Distinct()
+                );
             }
 
-            return asignaturasCorrelativas;
+            return asignaturasCorrelativas.AsEnumerable();
         }
     }
 }

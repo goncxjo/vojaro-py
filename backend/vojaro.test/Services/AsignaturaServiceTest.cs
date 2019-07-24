@@ -28,7 +28,7 @@ namespace vojaro.test.Services
         {
             long idAsignatura = 1; // Análisis Matemático I (UNDAV)
             IEnumerable<Asignatura> correlativas = asignaturaService.ObtenerCorrelativas(idAsignatura);
-            Assert.That(correlativas.Count() == 2);
+            Assert.That(correlativas.Count() == 3);
         }
     }
 }

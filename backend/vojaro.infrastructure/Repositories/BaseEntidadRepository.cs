@@ -7,7 +7,7 @@ using vojaro.infrastructure.Data;
 
 namespace vojaro.infrastructure.Repositories
 {
-    public abstract class BaseEntidadRepository<T> : IRepository<T> where T : BaseEntidad
+    public abstract class BaseEntidadRepository<T> : IRepository<T> where T : class, IBaseEntidad
     {
         private readonly VojaroDbContext Context;
         private DbSet<T> Entidades;

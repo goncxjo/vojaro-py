@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace vojaro.core.Entities
+﻿namespace vojaro.core.Entities
 {
-    public partial class CarreraOrientacion : BaseEntidad
+    public partial class CarreraOrientacion
     {
+        public long Id { get; set; }
         public long? CarreraId { get; set; }
         public string Nombre { get; set; }
 
