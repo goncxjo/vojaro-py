@@ -29,7 +29,7 @@ namespace vojaro.test.Services
 
             var universidades = new List<Universidad>()
             {
-                new Universidad { Codigo = "UNDAV", Nombre = "Universidad Nacional de Avellaneda" }
+                new Universidad { Id = 1, Codigo = "UNDAV", Nombre = "Universidad Nacional de Avellaneda" }
             };
 
             var ami = new Asignatura { Id = 1, Nombre = "Análisis Matemático I" };

@@ -11,7 +11,7 @@ namespace vojaro.core.Entities
         }
 
         public long Id { get; set; }
-        public string UniversidadCodigo { get; set; }
+        public long UniversidadId { get; set; }
         public string Nombre { get; set; }
 
         public virtual Universidad Universidad { get; set; }

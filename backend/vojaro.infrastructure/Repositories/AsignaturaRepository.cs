@@ -7,7 +7,6 @@ namespace vojaro.infrastructure.Repositories
     {
         public AsignaturaRepository(VojaroDbContext context) : base(context)
         {
-
         }
     }
 }

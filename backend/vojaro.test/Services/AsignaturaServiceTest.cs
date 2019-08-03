@@ -24,7 +24,7 @@ namespace vojaro.test.Services
         }
 
         [Test]
-        public void ObtenerCorrelativas_Asignatura_Tiene_Dos_Correlativas()
+        public void ObtenerCorrelativas_Asignatura_Tiene_Tres_Correlativas()
         {
             long idAsignatura = 1; // Análisis Matemático I (UNDAV)
             IEnumerable<Asignatura> correlativas = asignaturaService.ObtenerCorrelativas(idAsignatura);

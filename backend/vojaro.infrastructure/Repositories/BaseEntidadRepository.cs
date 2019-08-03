@@ -11,7 +11,6 @@ namespace vojaro.infrastructure.Repositories
     {
         private readonly VojaroDbContext Context;
         private DbSet<T> Entidades;
-        private string MensajeError = string.Empty;
 
         public BaseEntidadRepository(VojaroDbContext context)
         {

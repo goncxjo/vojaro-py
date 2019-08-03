@@ -17,7 +17,7 @@ namespace vojaro.core.Entities
         public virtual ICollection<DepartamentoUniversidad> Departamentos { get; set; }
         public virtual ICollection<SedeUniversidad> Sedes { get; set; }
 
-        public long Id => 0;
+        public long Id { get; set; }
         public DateTime FechaCarga { get; set; }
         public DateTime? FechaModificacion { get; set; }
         public long? ModificadoPor { get; set; }

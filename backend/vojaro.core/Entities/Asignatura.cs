@@ -9,6 +9,7 @@ namespace vojaro.core.Entities
         {
             Dependencias = new HashSet<AsignaturaCorrelativa>();
             Correlativas = new HashSet<AsignaturaCorrelativa>();
+            AlumnosAsignaturas = new HashSet<AlumnoAsignatura>();
         }
 
         public long? PlanCarreraId { get; set; }
@@ -17,9 +18,9 @@ namespace vojaro.core.Entities
         public byte CargaHoraria { get; set; }
         public string Codigo { get; set; }
 
-        public virtual PlanCarrera PlanCarrera { get; set; }
         public virtual ICollection<AsignaturaCorrelativa> Dependencias { get; set; }
         public virtual ICollection<AsignaturaCorrelativa> Correlativas { get; set; }
+        public virtual ICollection<AlumnoAsignatura> AlumnosAsignaturas { get; set; }
 
         public long Id { get; set; }
         public DateTime FechaCarga { get; set; }

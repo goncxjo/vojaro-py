@@ -1,6 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190720230030_Initial.cs" />
+    <Compile Remove="Migrations\20190720230030_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190803025416_DuaFojo.cs" />
+    <Compile Remove="Migrations\20190803025416_DuaFojo.Designer.cs" />
+    <Compile Remove="Migrations\20190803030242_Unua.cs" />
+    <Compile Remove="Migrations\20190803030242_Unua.Designer.cs" />
+    <Compile Remove="Migrations\20190803031554_Unua.cs" />
+    <Compile Remove="Migrations\20190803031554_Unua.Designer.cs" />
+    <Compile Remove="Migrations\20190803033404_Unua.cs" />
+    <Compile Remove="Migrations\20190803033404_Unua.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\vojaro.core\vojaro.core.csproj" />
   </ItemGroup>
 

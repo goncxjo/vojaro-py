@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vojaro.infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Unua : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,24 +12,19 @@ namespace vojaro.infrastructure.Migrations
                 name: "Alumno",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
+                    DNI = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FechaCarga = table.Column<DateTime>(type: "date", nullable: false),
-                    FechaModificacion = table.Column<DateTime>(type: "date", nullable: true),
-                    ModificadoPor = table.Column<long>(nullable: true),
-                    Version = table.Column<int>(nullable: false),
                     Nombre = table.Column<string>(maxLength: 255, nullable: false),
                     Apellido = table.Column<string>(maxLength: 255, nullable: false),
                     Edad = table.Column<int>(nullable: false),
-                    Dirección = table.Column<string>(maxLength: 255, nullable: true),
-                    Ciudad = table.Column<string>(maxLength: 255, nullable: true),
-                    Pais = table.Column<string>(maxLength: 255, nullable: true),
-                    Telefono_1 = table.Column<string>(maxLength: 255, nullable: true),
-                    Telefono_2 = table.Column<string>(maxLength: 255, nullable: true)
+                    FechaCarga = table.Column<DateTime>(type: "date", nullable: false),
+                    FechaModificacion = table.Column<DateTime>(type: "date", nullable: true),
+                    ModificadoPor = table.Column<long>(nullable: true),
+                    Version = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Alumno", x => x.ID);
+                    table.PrimaryKey("PK_Alumno", x => x.DNI);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,12 +46,12 @@ namespace vojaro.infrastructure.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Codigo = table.Column<string>(maxLength: 10, nullable: false),
+                    Nombre = table.Column<string>(maxLength: 255, nullable: false),
                     FechaCarga = table.Column<DateTime>(type: "date", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "date", nullable: true),
                     ModificadoPor = table.Column<long>(nullable: true),
-                    Version = table.Column<int>(nullable: false),
-                    Codigo = table.Column<string>(maxLength: 10, nullable: false),
-                    Nombre = table.Column<string>(maxLength: 255, nullable: false)
+                    Version = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +64,7 @@ namespace vojaro.infrastructure.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UniversidadID = table.Column<long>(nullable: true),
+                    UniversidadId = table.Column<long>(nullable: false),
                     Nombre = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
@@ -77,10 +72,10 @@ namespace vojaro.infrastructure.Migrations
                     table.PrimaryKey("PK_DepartamentoUniversidad", x => x.ID);
                     table.ForeignKey(
                         name: "FK__Departame__Unive__3D5E1FD2",
-                        column: x => x.UniversidadID,
+                        column: x => x.UniversidadId,
                         principalTable: "Universidad",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,27 +84,18 @@ namespace vojaro.infrastructure.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FechaCarga = table.Column<DateTime>(nullable: false),
-                    FechaModificacion = table.Column<DateTime>(nullable: true),
-                    ModificadoPor = table.Column<long>(nullable: true),
-                    Version = table.Column<int>(nullable: false),
-                    UniversidadID = table.Column<long>(nullable: true),
-                    Nombre = table.Column<string>(maxLength: 255, nullable: false),
-                    Dirección = table.Column<string>(maxLength: 255, nullable: true),
-                    Ciudad = table.Column<string>(maxLength: 255, nullable: true),
-                    Pais = table.Column<string>(maxLength: 255, nullable: true),
-                    Telefono_1 = table.Column<string>(maxLength: 255, nullable: true),
-                    Telefono_2 = table.Column<string>(maxLength: 255, nullable: true)
+                    UniversidadId = table.Column<long>(nullable: false),
+                    Nombre = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SedeUniversidad", x => x.ID);
                     table.ForeignKey(
                         name: "FK__SedeUnive__Unive__3A81B327",
-                        column: x => x.UniversidadID,
+                        column: x => x.UniversidadId,
                         principalTable: "Universidad",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,15 +104,14 @@ namespace vojaro.infrastructure.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TipoCarreraID = table.Column<byte>(nullable: true),
+                    DepartamentoUniversidadID = table.Column<long>(nullable: true),
+                    Nombre = table.Column<string>(maxLength: 255, nullable: false),
+                    Duracion = table.Column<byte>(nullable: false, defaultValueSql: "((1))"),
                     FechaCarga = table.Column<DateTime>(type: "date", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "date", nullable: true),
                     ModificadoPor = table.Column<long>(nullable: true),
-                    Version = table.Column<int>(nullable: false),
-                    TipoCarreraID = table.Column<byte>(nullable: true),
-                    DepartamentoUniversidadID = table.Column<long>(nullable: true),
-                    UniversidadID = table.Column<long>(nullable: true),
-                    Nombre = table.Column<string>(maxLength: 255, nullable: false),
-                    Duracion = table.Column<byte>(nullable: false, defaultValueSql: "((1))")
+                    Version = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,78 +128,6 @@ namespace vojaro.infrastructure.Migrations
                         principalTable: "TipoCarrera",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK__Carrera__Univers__440B1D61",
-                        column: x => x.UniversidadID,
-                        principalTable: "Universidad",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AlumnoAsignatura",
-                columns: table => new
-                {
-                    ID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FechaCarga = table.Column<DateTime>(type: "date", nullable: false),
-                    FechaModificacion = table.Column<DateTime>(type: "date", nullable: true),
-                    ModificadoPor = table.Column<long>(nullable: true),
-                    Version = table.Column<int>(nullable: false),
-                    AlumnoID = table.Column<long>(nullable: true),
-                    CarreraID = table.Column<long>(nullable: true),
-                    EstadoAsignatura = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AlumnoAsignatura", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK__AlumnoAsi__Alumn__5DCAEF64",
-                        column: x => x.AlumnoID,
-                        principalTable: "Alumno",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK__AlumnoAsi__Carre__5EBF139D",
-                        column: x => x.CarreraID,
-                        principalTable: "Carrera",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Asignatura",
-                columns: table => new
-                {
-                    ID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FechaCarga = table.Column<DateTime>(type: "date", nullable: false),
-                    FechaModificacion = table.Column<DateTime>(type: "date", nullable: true),
-                    ModificadoPor = table.Column<long>(nullable: true),
-                    Version = table.Column<int>(nullable: false),
-                    UniversidadID = table.Column<long>(nullable: true),
-                    CarreraID = table.Column<long>(nullable: true),
-                    Nombre = table.Column<string>(maxLength: 255, nullable: false),
-                    Cuatrimestre = table.Column<int>(nullable: false),
-                    CargaHoraria = table.Column<byte>(nullable: false),
-                    EsAsignaturaComun = table.Column<bool>(nullable: false),
-                    Codigo = table.Column<string>(maxLength: 10, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Asignatura", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK__Asignatur__Carre__4D94879B",
-                        column: x => x.CarreraID,
-                        principalTable: "Carrera",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK__Asignatur__Unive__4CA06362",
-                        column: x => x.UniversidadID,
-                        principalTable: "Universidad",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -223,10 +136,6 @@ namespace vojaro.infrastructure.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FechaCarga = table.Column<DateTime>(type: "date", nullable: false),
-                    FechaModificacion = table.Column<DateTime>(type: "date", nullable: true),
-                    ModificadoPor = table.Column<long>(nullable: true),
-                    Version = table.Column<int>(nullable: false),
                     CarreraID = table.Column<long>(nullable: true),
                     Nombre = table.Column<string>(maxLength: 255, nullable: false)
                 },
@@ -242,62 +151,118 @@ namespace vojaro.infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AsignaturaCorrelativa",
+                name: "PlanCarrera",
                 columns: table => new
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AsignaturaID = table.Column<long>(nullable: true),
-                    CorrelativaID = table.Column<long>(nullable: true),
+                    CarreraId = table.Column<long>(nullable: false),
+                    Anio = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanCarrera", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK__PlanCarre__Carre__48CFD27E",
+                        column: x => x.CarreraId,
+                        principalTable: "Carrera",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Asignatura",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PlanCarreraID = table.Column<long>(nullable: true),
+                    Nombre = table.Column<string>(maxLength: 255, nullable: false),
+                    Cuatrimestre = table.Column<int>(nullable: false),
+                    CargaHoraria = table.Column<byte>(nullable: false),
+                    Codigo = table.Column<string>(maxLength: 10, nullable: true),
+                    FechaCarga = table.Column<DateTime>(type: "date", nullable: false),
+                    FechaModificacion = table.Column<DateTime>(type: "date", nullable: true),
+                    ModificadoPor = table.Column<long>(nullable: true),
+                    Version = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Asignatura", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Asignatura_PlanCarrera_PlanCarreraID",
+                        column: x => x.PlanCarreraID,
+                        principalTable: "PlanCarrera",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AlumnoAsignatura",
+                columns: table => new
+                {
+                    AlumnoId = table.Column<long>(nullable: false),
+                    AsignaturaId = table.Column<long>(nullable: false),
+                    EstadoAsignatura = table.Column<string>(maxLength: 100, nullable: false),
+                    FechaCarga = table.Column<DateTime>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlumnoAsignatura", x => new { x.AlumnoId, x.AsignaturaId });
+                    table.ForeignKey(
+                        name: "FK_AlumnoAsignatura_Alumno_AlumnoId",
+                        column: x => x.AlumnoId,
+                        principalTable: "Alumno",
+                        principalColumn: "DNI",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AlumnoAsignatura_Asignatura_AsignaturaId",
+                        column: x => x.AsignaturaId,
+                        principalTable: "Asignatura",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AsignaturaCorrelativa",
+                columns: table => new
+                {
+                    AsignaturaId = table.Column<long>(nullable: false),
+                    CorrelativaId = table.Column<long>(nullable: false),
                     Regularizada = table.Column<bool>(nullable: false),
                     Aprobada = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AsignaturaCorrelativa", x => x.ID);
+                    table.PrimaryKey("PK_AsignaturaCorrelativa", x => new { x.AsignaturaId, x.CorrelativaId });
                     table.ForeignKey(
-                        name: "FK__Asignatur__Asign__5441852A",
-                        column: x => x.AsignaturaID,
+                        name: "FK_AsignaturaCorrelativa_Asignatura_AsignaturaId",
+                        column: x => x.AsignaturaId,
                         principalTable: "Asignatura",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK__Asignatur__Corre__5535A963",
-                        column: x => x.CorrelativaID,
+                        name: "FK_AsignaturaCorrelativa_Asignatura_CorrelativaId",
+                        column: x => x.CorrelativaId,
                         principalTable: "Asignatura",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AlumnoAsignatura_AlumnoID",
+                name: "IX_AlumnoAsignatura_AsignaturaId",
                 table: "AlumnoAsignatura",
-                column: "AlumnoID");
+                column: "AsignaturaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AlumnoAsignatura_CarreraID",
-                table: "AlumnoAsignatura",
-                column: "CarreraID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Asignatura_CarreraID",
+                name: "IX_Asignatura_PlanCarreraID",
                 table: "Asignatura",
-                column: "CarreraID");
+                column: "PlanCarreraID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Asignatura_UniversidadID",
-                table: "Asignatura",
-                column: "UniversidadID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AsignaturaCorrelativa_AsignaturaID",
+                name: "IX_AsignaturaCorrelativa_CorrelativaId",
                 table: "AsignaturaCorrelativa",
-                column: "AsignaturaID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AsignaturaCorrelativa_CorrelativaID",
-                table: "AsignaturaCorrelativa",
-                column: "CorrelativaID");
+                column: "CorrelativaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carrera_DepartamentoUniversidadID",
@@ -310,24 +275,24 @@ namespace vojaro.infrastructure.Migrations
                 column: "TipoCarreraID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carrera_UniversidadID",
-                table: "Carrera",
-                column: "UniversidadID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CarreraOrientacion_CarreraID",
                 table: "CarreraOrientacion",
                 column: "CarreraID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartamentoUniversidad_UniversidadID",
+                name: "IX_DepartamentoUniversidad_UniversidadId",
                 table: "DepartamentoUniversidad",
-                column: "UniversidadID");
+                column: "UniversidadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SedeUniversidad_UniversidadID",
+                name: "IX_PlanCarrera_CarreraId",
+                table: "PlanCarrera",
+                column: "CarreraId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SedeUniversidad_UniversidadId",
                 table: "SedeUniversidad",
-                column: "UniversidadID");
+                column: "UniversidadId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -349,6 +314,9 @@ namespace vojaro.infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Asignatura");
+
+            migrationBuilder.DropTable(
+                name: "PlanCarrera");
 
             migrationBuilder.DropTable(
                 name: "Carrera");

@@ -55,22 +55,25 @@ namespace vojaro.infrastructure.Data
 
             modelBuilder.Entity<AlumnoAsignatura>(entity =>
             {
-                entity.HasKey(e => new { e.AlumnoId, e.CarreraId });
+                entity.HasKey(e => new { e.AlumnoId, e.AsignaturaId });
                 entity.Property(e => e.EstadoAsignatura)
                     .IsRequired()
                     .HasMaxLength(100);
                 entity.Property(e => e.FechaCarga).HasColumnType("date");
                 entity.HasOne(d => d.Alumno)
-                    .WithMany(p => p.AlumnoAsignatura)
-                    .HasForeignKey(d => d.AlumnoId)
-                    .HasConstraintName("FK__AlumnoAsi__Alumn__5DCAEF64");
+                    .WithMany(p => p.AlumnosAsignaturas)
+                    .HasForeignKey(d => d.AlumnoId);
+                entity.HasOne(d => d.Asignatura)
+                    .WithMany(p => p.AlumnosAsignaturas)
+                    .HasForeignKey(d => d.AsignaturaId);
+
             });
 
             modelBuilder.Entity<Asignatura>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.PlanCarreraId).HasColumnName("CarreraID");
+                entity.Property(e => e.PlanCarreraId).HasColumnName("PlanCarreraID");
 
                 entity.Property(e => e.Codigo).HasMaxLength(10);
 
@@ -82,18 +85,13 @@ namespace vojaro.infrastructure.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.HasOne(d => d.PlanCarrera)
-                    .WithMany(p => p.Asignaturas)
-                    .HasForeignKey(d => d.PlanCarreraId)
-                    .HasConstraintName("FK__Asignatur__PlanC__4D94879B");
-
                 entity.HasMany(d => d.Correlativas)
                     .WithOne(p => p.Asignatura)
-                    .HasForeignKey(d => d.AsignaturaId);
+                    .HasForeignKey(d => d.AsignaturaId).OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(d => d.Dependencias)
                     .WithOne(p => p.Correlativa)
-                    .HasForeignKey(d => d.CorrelativaId);
+                    .HasForeignKey(d => d.CorrelativaId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<AsignaturaCorrelativa>(entity =>
@@ -147,11 +145,11 @@ namespace vojaro.infrastructure.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.UniversidadCodigo).HasColumnName("UniversidadCodigo");
+                entity.Property(e => e.UniversidadId).HasColumnName("UniversidadId");
 
                 entity.HasOne(d => d.Universidad)
                     .WithMany(p => p.Departamentos)
-                    .HasForeignKey(d => d.UniversidadCodigo)
+                    .HasForeignKey(d => d.UniversidadId)
                     .HasConstraintName("FK__Departame__Unive__3D5E1FD2");
             });
 
@@ -173,10 +171,10 @@ namespace vojaro.infrastructure.Data
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255);
-                entity.Property(e => e.UniversidadCodigo).HasColumnName("UniversidadCodigo");
+                entity.Property(e => e.UniversidadId).HasColumnName("UniversidadId");
                 entity.HasOne(d => d.Universidad)
                     .WithMany(p => p.Sedes)
-                    .HasForeignKey(d => d.UniversidadCodigo)
+                    .HasForeignKey(d => d.UniversidadId)
                     .HasConstraintName("FK__SedeUnive__Unive__3A81B327");
             });
 
@@ -193,7 +191,7 @@ namespace vojaro.infrastructure.Data
 
             modelBuilder.Entity<Universidad>(entity =>
             {
-                entity.HasKey(e => e.Codigo);
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Codigo)
                     .IsRequired()

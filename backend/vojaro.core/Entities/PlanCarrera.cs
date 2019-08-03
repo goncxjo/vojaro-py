@@ -7,7 +7,6 @@ namespace vojaro.core.Entities
         public PlanCarrera()
         {
             Asignaturas = new HashSet<Asignatura>();
-            AlumnosAsignaturas = new HashSet<AlumnoAsignatura>();
         }
 
         public long Id { get; set; }
@@ -16,6 +15,5 @@ namespace vojaro.core.Entities
 
         public virtual Carrera Carrera { get; set; }
         public virtual ICollection<Asignatura> Asignaturas { get; set; }
-        public virtual ICollection<AlumnoAsignatura> AlumnosAsignaturas { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace vojaro.core.Entities
     {
         public Alumno()
         {
-            AlumnoAsignatura = new HashSet<AlumnoAsignatura>();
+            AlumnosAsignaturas = new HashSet<AlumnoAsignatura>();
         }
 
         public long DNI { get; set; }
@@ -15,7 +15,7 @@ namespace vojaro.core.Entities
         public string Apellido { get; set; }
         public int Edad { get; set; }
 
-        public virtual ICollection<AlumnoAsignatura> AlumnoAsignatura { get; set; }
+        public virtual ICollection<AlumnoAsignatura> AlumnosAsignaturas { get; set; }
 
         public long Id => this.DNI;
         public DateTime FechaCarga { get; set; }
