@@ -1,12 +1,13 @@
 # coding=utf-8
 
 from src import db
-from datetime import datetime
 from marshmallow import Schema, fields
 
 from .entity import Entity
 
 class Universidad(db.Model, Entity):
+    __tablename__ = 'Universidades'
+    
     codigo = db.Column(db.String)
     nombre = db.Column(db.String)
 
