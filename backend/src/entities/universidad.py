@@ -1,16 +1,27 @@
 # coding=utf-8
 
-from sqlalchemy import Column, String
-from .entity import Entity, Base
+from src import db
+from datetime import datetime
+from marshmallow import Schema, fields
 
-class Universidad(Entity, Base):
-    __tablename__ = 'Universidades'
+from .entity import Entity
 
-    codigo = Column(String)
-    nombre = Column(String)
+class Universidad(db.Model, Entity):
+    codigo = db.Column(db.String)
+    nombre = db.Column(db.String)
 
-    def __init__(self, codigo, nombre, created_by):
-        Entity.__init__(self, created_by)
+    def __init__(self, codigo, nombre, creado_por):
+        Entity.__init__(self, creado_por)
         self.codigo = codigo
         self.nombre = nombre
     
+    def __repr__(self):
+        return '<Universidad {}>'.format(self.codigo)
+
+class UniversidadSchema(Schema):
+    id = fields.Number()
+    codigo = fields.Str()
+    nombre = fields.Str()
+    creado = fields.DateTime()
+    modificado = fields.DateTime()
+    modificado_por = fields.Str()
