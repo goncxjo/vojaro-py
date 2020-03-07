@@ -1,7 +1,6 @@
 # coding=utf-8
 
 from sqlalchemy import Column, String
-
 from .entity import Entity, Base
 
 class Universidad(Entity, Base):

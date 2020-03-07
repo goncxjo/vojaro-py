@@ -12,7 +12,7 @@ session = Session()
 # check for existing data
 universidades = session.query(Universidad).all()
 
-if len(universidad) == 0:
+if len(universidades) == 0:
     # create and persis dummy universidad
     python_universidad = Universidad("UNDAV", "Universidad Nacional de Avellaneda", "script")
     session.add(python_universidad)

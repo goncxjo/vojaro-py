@@ -12,7 +12,7 @@ db_password = 'v0j4r0'
 engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}')
 Session = sessionmaker(bind=engine)
 
-Base = declarative_base
+Base = declarative_base()
 
 class Entity():
     id = Column(Integer, primary_key=True)
