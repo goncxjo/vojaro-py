@@ -1,4 +1,5 @@
 #coding=utf-8
+
 import os
 from config import Config
 
@@ -9,9 +10,11 @@ from flask_migrate import Migrate
 # creating the Flask application
 app = Flask(__name__)
 app.config.from_object(Config)
-
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+from app.api import api
+app.register_blueprint(api, url_prefix="/api")
 
 from app import routes
 from app.models import Entity, Universidad
