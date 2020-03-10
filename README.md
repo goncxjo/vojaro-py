@@ -1,21 +1,33 @@
-$ python -m venv venv
+On the root folder type:
 
--- Linux
-$ source venv/bin/activate
--- Windows
-> venv\Scripts\activate
+`python -m venv venv`
 
-$ pip install -r requirements.txt
+### Linux/MAC
+`source venv/bin/activate`
+### Windows
+`venv\Scripts\activate`
 
-$ docker run --name vojaro-db \
-    -p 5432:5432 \
-    -e POSTGRES_DB=vojaro \
-    -e POSTGRES_PASSWORD=v0j4r0 \
-    -d postgres
+`pip install -r requirements.txt`
 
-$ flask db init & flask db migrate & flask db upgrade
+Run this if there is no database
+`docker run --name vojaro-db \`
+`    -p 5432:5432 \`
+`    -e POSTGRES_DB=vojaro \`
+`    -e POSTGRES_PASSWORD=v0j4r0 \`
+`    -d postgres`
 
-$ curl -X POST -H 'Content-Type: application/json' -d '{
-  "codigo": "UNDAV",
-  "nombre": "Universidad Nacional de Avellaneda"
-}' http://localhost:5000/api/universidades
+`flask db init`
+`flask db migrate`
+`flask db upgrade`
+
+Run the app:
+### Linux/MAC
+`bootstrap.sh`
+### Windows
+`bootstrap.bat`
+
+For testing the API
+`curl -X POST -H 'Content-Type: application/json' -d '{`
+`  "codigo": "UNDAV",`
+`  "nombre": "Universidad Nacional de Avellaneda"`
+`}' http://localhost:5000/api/universidades`

@@ -1,14 +1,15 @@
 #coding=utf-8
 
-from vojaro import app
-from config import config
 from flask import send_from_directory
 
-@app.route('/')
-@app.route('/index')
+from config import config
+from vojaro.main import bp
+
+@bp.route('/')
+@bp.route('/index')
 def index():
     return send_from_directory(config.STATIC_FOLDER, 'index.html')
 
-@app.route('/ping')
+@bp.route('/ping')
 def ping():
     return 'Pong!'

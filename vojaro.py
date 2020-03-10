@@ -1,6 +1,7 @@
-import os
-from vojaro import db, app
+from vojaro import create_app, db
 from vojaro.models import Universidad
+
+app = create_app()
 
 @app.shell_context_processor
 def make_shell_context():

@@ -1,12 +1,11 @@
 #coding=utf-8
 
-from vojaro import app, db
-from vojaro.models import Universidad
-from vojaro.schemas import UniversidadSchema
-
 from flask import render_template, jsonify, request, Blueprint
 
-api = Blueprint('api', __name__)
+from vojaro import db
+from vojaro.models import Universidad
+from vojaro.schemas import UniversidadSchema
+from vojaro.api import bp as api
 
 @api.route('/universidad/<int:id>')
 def get_universidad(id):
