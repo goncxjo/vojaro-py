@@ -5,8 +5,8 @@ See `.flaskenv` for default settings.
  """
 
 import os
-from app import app
 
+db_uri = 'postgresql://postgres:v0j4r0@localhost:5432/vojaro'
 
 class Config(object):
     # If not set fall back to production for safety
@@ -18,8 +18,9 @@ class Config(object):
     ROOT_DIR = os.path.dirname(APP_DIR)
     DIST_DIR = os.path.join(ROOT_DIR, 'dist')
 
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or db_uri
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
     if not os.path.exists(DIST_DIR):
         raise Exception(
             'DIST_DIR not found: {}'.format(DIST_DIR))
-
-app.config.from_object('app.config.Config')

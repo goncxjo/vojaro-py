@@ -31,7 +31,7 @@ class ResourceOne(Resource):
 
 @api_rest.route('/secure-resource/<string:resource_id>')
 class SecureResourceOne(SecureResource):
-    """ Unsecure Resource Class: Inherit from Resource """
+    """ Secure Resource Class: Inherit from SecureResource """
 
     def get(self, resource_id):
         timestamp = datetime.utcnow().isoformat()

@@ -8,6 +8,10 @@ gunicorn = "*"
 python-dotenv = "*"
 flask = "*"
 flask-restx = "*"
+psycopg2 = "*"
+flask-migrate = "*"
+flask-sqlalchemy = "*"
+marshmallow = "*"
 
 [dev-packages]
 pytest = "*"
