@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn vojaro:app
+web: gunicorn app:app --log-file -
