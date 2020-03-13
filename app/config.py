@@ -21,6 +21,6 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or db_uri
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    if not os.path.exists(DIST_DIR):
+    if FLASK_ENV == 'production' and not os.path.exists(DIST_DIR):
         raise Exception(
             'DIST_DIR not found: {}'.format(DIST_DIR))

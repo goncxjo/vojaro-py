@@ -1,6 +1,9 @@
 // const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 module.exports = {
+  chainWebpack: config => {
+    config.module.rules.delete('eslint');
+  },
   outputDir: 'dist',
   assetsDir: 'static',
   // baseUrl: IS_PRODUCTION

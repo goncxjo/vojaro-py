@@ -40,8 +40,12 @@ class Universidad(Resource):
 
     def post(self, id):
         # mount universidad object
-        posted_universidad = UniversidadSchema(only=('codigo', 'nombre'))\
+        posted_universidad, errors = UniversidadSchema(only=('codigo', 'nombre'))\
             .load(request.get_json())
+
+        if errors:
+            return { "errors": errors }, 422
+
         universidad = Universidad(**posted_universidad, creado_por="HTTP post request")
         # persist universidad
         db.session.add(universidad)

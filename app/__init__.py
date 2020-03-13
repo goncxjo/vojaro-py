@@ -19,14 +19,10 @@ migrate.init_app(app, db)
 
 from .api import api_bp
 app.register_blueprint(api_bp)
-from .client import client_bp
-# app.register_blueprint(client_bp)
 
 @app.route('/')
-def index_client():
-    dist_dir = app.config['DIST_DIR']
-    entry = os.path.join(dist_dir, 'index.html')
-    return send_file(entry)
+def index():
+    return "Ready!"
 
 #return app
 
