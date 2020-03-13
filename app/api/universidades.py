@@ -10,7 +10,7 @@ from app.models import Universidad
 from app.schemas import UniversidadSchema
 
 @api_rest.route('/universidades')
-class Universidades(Resource):
+class UniversidadesAll(Resource):
     """ Unsecure Universidades Class: Inherit from Resource """
 
     def get(self):
@@ -25,7 +25,7 @@ class Universidades(Resource):
         return jsonify(universidades)
 
 @api_rest.route('/universidades/<int:id>')
-class Universidad(Resource):
+class UniversidadOne(Resource):
     """ Unsecure Universidad Class: Inherit from Resource """
 
     def get(self, id):
