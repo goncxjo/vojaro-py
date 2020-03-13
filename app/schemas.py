@@ -1,9 +1,9 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields
 
 class UsuarioSchema(Schema):
     id = fields.Number()
-    nick = fields.Str(required=True)
-    email = fields.Str(required=True)
+    nick = fields.Str()
+    email = fields.Str()
     password_hash = fields.Str()
     creado = fields.DateTime()
     modificado = fields.DateTime()
@@ -11,8 +11,8 @@ class UsuarioSchema(Schema):
 
 class UniversidadSchema(Schema):
     id = fields.Number()
-    codigo = fields.Str(required=True)
-    nombre = fields.Str(required=True)
+    codigo = fields.Str()
+    nombre = fields.Str()
     creado = fields.DateTime()
     modificado = fields.DateTime()
     modificado_por = fields.Str()

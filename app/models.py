@@ -34,7 +34,7 @@ class Universidad(db.Model, Entity):
 class Usuario(db.Model, Entity):
     __tablename__ = 'Usuarios'
     
-    nick = db.Column(db.String(64), index=True, unique=True)
+    nombre_usuario = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 
@@ -44,7 +44,7 @@ class Usuario(db.Model, Entity):
         self.nombre = nombre
     
     def __repr__(self):
-        return '<Usuario {}>'.format(self.nick)
+        return '<Usuario {}>'.format(self.nombre_usuario)
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
