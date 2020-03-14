@@ -1,15 +1,13 @@
 <template>
-  <HomeModulos />
+  <HelloWorld />
 </template>
 
 <script>
-  import HomeModulos from '../components/HomeModulos'
+  import HelloWorld from '../components/HelloWorld'
 
   export default {
-    name: 'Home',
-
     components: {
-      HomeModulos,
+      HelloWorld
     },
   }
 </script>

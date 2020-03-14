@@ -1,13 +1,13 @@
 <template>
-  <app-login />
+  <VojaroLogin />
 </template>
 
 <script>
-  import UsuarioLogin from '../components/UsuarioLogin'
+  import VojaroLogin from '../components/VojaroLogin'
 
   export default {
     components: {
-      UsuarioLogin,
+      VojaroLogin,
     },
   }
 </script>
