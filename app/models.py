@@ -20,7 +20,7 @@ class Entity():
 class Universidad(db.Model, Entity):
     __tablename__ = 'Universidades'
     
-    codigo = db.Column(db.String)
+    codigo = db.Column(db.String, unique=True)
     nombre = db.Column(db.String)
 
     def __init__(self, codigo, nombre, creado_por):

@@ -6,7 +6,7 @@ See `.flaskenv` for default settings.
 
 import os
 
-db_uri = 'postgresql://postgres:v0j4r0@localhost:5432/vojaro'
+db_uri = 'postgresql://postgres:root@localhost:5432/vojaro'
 
 class Config(object):
     # If not set fall back to production for safety

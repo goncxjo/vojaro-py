@@ -2,15 +2,13 @@
   <v-app>
     <v-app-bar
       app
-      color="teal"
+      color="primary"
       dark
     >
       <v-toolbar-title>V O J A R O</v-toolbar-title>
-
       <v-spacer></v-spacer>
-
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="#"
         target="_blank"
         text
       >
@@ -18,8 +16,7 @@
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
-
-    <v-content>
+    <v-content class="navbar-top-padding">
       <router-view/>
     </v-content>
   </v-app>
@@ -35,3 +32,8 @@ export default {
   })
 }
 </script>
+
+<style lang="sass">
+  .navbar-top-padding
+    padding-top: 100px !important
+</style>

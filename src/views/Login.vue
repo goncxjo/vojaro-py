@@ -3,11 +3,11 @@
 </template>
 
 <script>
-  import AppLogin from '../components/Login'
+  import UsuarioLogin from '../components/UsuarioLogin'
 
   export default {
     components: {
-      AppLogin,
+      UsuarioLogin,
     },
   }
 </script>

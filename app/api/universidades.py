@@ -34,10 +34,11 @@ class UniversidadesAll(Resource):
         db.session.add(universidad)
         db.session.commit()
         # return created universidad
-        new_universidad = UniversidadSchema().dump(universidad)
-        db.session.close()
+        # new_universidad = UniversidadSchema().dump(universidad)
+        # db.session.close()
 
-        return jsonify(new_universidad), 201
+        # return jsonify(new_universidad), 201
+        return { "response": "ok" }, 201
 
 @api_rest.route('/universidades/<int:id>')
 class UniversidadOne(Resource):

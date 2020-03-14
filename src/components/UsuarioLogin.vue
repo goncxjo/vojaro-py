@@ -16,7 +16,7 @@
           >
             <v-card class="elevation-12">
               <v-toolbar
-                color="teal"
+                color="primary"
                 dark
                 flat
               >
@@ -27,7 +27,7 @@
                 <v-form>
                   <v-text-field
                     label="Nombre de usuario"
-                    name="nickname"
+                    name="nombre_usuario"
                     prepend-icon="person"
                     type="text"
                   />
@@ -42,7 +42,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="teal">Login</v-btn>
+                <v-btn color="primary">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -54,7 +54,7 @@
 
 <script>
   export default {
-    name: "AppLogin",
+    name: "UsuarioLogin",
     data: () => ({
     }),
   }
