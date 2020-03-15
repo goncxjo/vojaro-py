@@ -35,10 +35,10 @@ class UniversidadesAll(Resource):
         db.session.commit()
         # return created universidad
         # new_universidad = UniversidadSchema().dump(universidad)
-        # db.session.close()
+        db.session.close()
 
         # return jsonify(new_universidad), 201
-        return { "response": "ok" }, 201
+        return { "response": "entidad creada" }, 201
 
 @api_rest.route('/universidades/<int:id>')
 class UniversidadOne(Resource):
@@ -46,10 +46,32 @@ class UniversidadOne(Resource):
 
     def get(self, id):
         # fetching from the database
-        universidades_object = Universidad.query.filter_by(id=id).first_or_404(description='No existe esa universidad')
+        universidad_object = Universidad.query.filter_by(id=id).first_or_404()
         # transforming into JSON-serializable objects
-        universidad = UniversidadSchema().dump(universidades_object)
+        universidad = UniversidadSchema().dump(universidad_object)
         # serializing as JSON
         db.session.close()
 
         return jsonify(universidad)
+
+    def put(self, id):
+        # mount universidad object
+        print(request.get_json())
+        posted_universidad = UniversidadSchema(only=('codigo', 'nombre'))\
+            .load(request.get_json())
+
+        # fetching from the database
+        universidad_object = Universidad.query.filter_by(id=id).first_or_404()
+        universidad_object.codigo = posted_universidad['codigo']
+        universidad_object.nombre = posted_universidad['nombre']
+
+        # persist universidad
+        db.session.commit()
+
+        # transforming into JSON-serializable objects
+        # universidad = UniversidadSchema().dump(universidades_object)
+        # serializing as JSON
+        db.session.close()
+
+        # return jsonify(universidad)
+        return { "response": "entidad actualizada" }, 201

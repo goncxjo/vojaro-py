@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import VojaroLogin from '../components/VojaroLogin'
+  import VojaroLogin from '@/components/VojaroLogin'
 
   export default {
     components: {

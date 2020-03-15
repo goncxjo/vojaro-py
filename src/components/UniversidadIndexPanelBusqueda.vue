@@ -1,61 +1,56 @@
 <template>
-  <v-card>
-    <v-toolbar
-      color="primary"
-      dark
-      dense
-      flat
-    >
-    <v-card-title>Buscar Universidades</v-card-title>
-    </v-toolbar>
+  <CartaFormulario titulo="Buscar">
+    <template v-slot:form>
+      <v-row>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-text-field
+            v-model="codigo"
+            label="Codigo"
+            name="codigo"
+            type="text"
+          />
+        </v-col>
 
-    <v-card-text>
-      <v-form>
-        <v-container>
-          <v-row>
-            <v-col
-              cols="12"
-              md="6"
-            >
-              <v-text-field
-                label="Codigo"
-                name="codigo"
-                type="text"
-              />
-            </v-col>
-
-            <v-col
-              cols="12"
-              md="6"
-            >
-              <v-text-field
-                label="Nombre"
-                name="nombre"
-                type="text"
-              />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-form>
-    </v-card-text>
-
-    <v-card-actions>
-      <v-spacer />
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <v-text-field
+            v-model="nombre"
+            label="Nombre"
+            name="nombre"
+            type="text"
+          />
+        </v-col>
+      </v-row>
+    </template>
+    <template v-slot:btn>
       <v-btn
         color="primary"
+        class="pl-3 pr-3"
       >
         Buscar
       </v-btn>
-    </v-card-actions>
-  </v-card>
+    </template>
+  </CartaFormulario>
 </template>
 
 <script>
-  import { API } from '../backend'
+  import { API } from '@/backend'
+  import CartaFormulario from '@/components/CartaFormulario'
 
   export default {
+    components: {
+      CartaFormulario
+    },
     data() {
-      return {}
+      return {
+        codigo: '',
+        nombre: '',
+      }
     }
   }
 </script>
