@@ -62,7 +62,7 @@
 </template>
 
 <script>
-  import { API } from '@/backend'
+  import store from '@/store'
   import router from '@/router'
   import CartaFormulario from '@/components/CartaFormulario'
 
@@ -97,31 +97,8 @@
         this.titulo = this.accion + ' Universidad'
       },
       guardarUniversidad() {
-        if (this.accion == "Crear") {
-          API.post(`universidades`, {
-            codigo: this.universidad.codigo,
-            nombre: this.universidad.nombre,
-          })
-          .then(response => {
-            console.log(response.data)
-          })
-          .catch(e => {
-            console.log(e)
-          })
-        }
-        else if (this.accion == "Editar") {
-          console.log(this.universidad)
-          API.put(`universidades/${this.universidad.id}`, {
-            codigo: this.universidad.codigo,
-            nombre: this.universidad.nombre,
-          })
-          .then(response => {
-            console.log(response.data)
-          })
-          .catch(e => {
-            console.log(e)
-          })
-        }
+        this.$store.commit('universidades/SETEAR_ENTIDAD', this.universidad)
+        this.$store.dispatch(`universidades/guardar`)
       }
     },
     created() {
@@ -129,14 +106,14 @@
       this.universidad.id = this.$route.params.id ?? 0
       
       if (this.accion == "Editar") {
-        API.get(`universidades/${this.universidad.id}`)
-        .then(response => {
-          this.universidad = response.data
-        })
-        .catch(e => {
-          console.log(e)
-        })
+        this.$store.dispatch(`universidades/cargar`, this.universidad.id)
+        this.universidad = editarEntidad
       }
     },
+    computed: {
+      editarEntidad () {
+        return this.$store.getters.entidad
+      }
+    }
   }
 </script>

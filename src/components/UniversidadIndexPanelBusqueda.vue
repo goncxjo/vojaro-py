@@ -39,7 +39,6 @@
 </template>
 
 <script>
-  import { API } from '@/backend'
   import CartaFormulario from '@/components/CartaFormulario'
 
   export default {

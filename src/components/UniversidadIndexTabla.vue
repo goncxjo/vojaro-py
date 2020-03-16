@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import { API } from '@/backend'
+  import store from '@/store'
   import router from '@/router'
 
   export default {
@@ -63,15 +63,6 @@
         errors: []
       }
     },
-    created() {
-      API.get('universidades')
-      .then(response => {
-        this.universidades = response.data
-      })
-      .catch(e => {
-        this.errors.push(e)
-      })
-    },
     methods: {
       crearItem (item) {
         router.push({ name: 'universidad.crear'})
@@ -83,6 +74,15 @@
         const index = this.universidades.indexOf(item)
         confirm('¿Desea eliminar esta universidad?') && this.universidades.splice(index, 1)
       },
-    }
+    },
+    computed: {
+      entidades () {
+        return this.$store.universidades.getters.entidades
+      }
+    },
+    created() {
+      this.$store.dispatch(`universidades/cargarLista`)
+      this.universidades = entidades()
+    },
   }
 </script>

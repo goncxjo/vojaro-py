@@ -25,8 +25,6 @@
 </template>
 
 <script>
-  import { API } from '@/backend'
-
   export default {
     props: ['titulo'],
     data() {
