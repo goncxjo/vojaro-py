@@ -1,7 +1,9 @@
 import { httpClient } from '@/api'
 
 const state = {
+    id: 0,
     entidad: {
+        id: 0,
         codigo: '',
         nombre: ''
     },
@@ -12,16 +14,19 @@ const getters = {
     entidad: state => state.entidad,
     entidades: state => state.entidades
 }
-
+22
 const actions = {
-    cargar ({ commit }, { id }) {
-        console.log(id)
-      httpClient.universidades
-        .obtenerPorId(id)
+    cargar ({ commit, state }) {
+      if (state.id) {
+        httpClient.universidades
+        .obtenerPorId(state.id)
         .then(r => r.data)
         .then(entidad => {
-          commit('SETEAR_ENTIDADES', entidad)
+          commit('SETEAR_ENTIDAD', entidad)
         })
+      } else {
+        commit('LIMPIAR_ENTIDAD')
+      }
     },
     cargarLista ({ commit }) {
       httpClient.universidades
@@ -35,7 +40,6 @@ const actions = {
         })
     },
     guardar ({ commit, state }) {
-        console.log('entidad', state)
         let payload = {
             codigo: state.entidad.codigo,
             nombre: state.entidad.nombre,
@@ -47,11 +51,10 @@ const actions = {
   
         httpClient.universidades
             .guardar(payload)
-            .then(r => r.data)
-            .then(nuevaEntidad => {
-                console.log(nuevaEntidad)       
-                commit('AGREGAR_ENTIDAD', nuevaEntidad)
-                commit('LIMPIAR_ENTIDAD', nuevaEntidad)
+            .then(response => {
+                commit('AGREGAR_ENTIDAD', response.data)
+                commit('LIMPIAR_ENTIDAD')
+                return response
             }).catch(e => {
                 console.log(e)
             })
@@ -63,6 +66,9 @@ const actions = {
 }
 
 const mutations = {
+    SETEAR_ID(state, id) {
+      state.id = id
+    },
     SETEAR_ENTIDAD(state, entidad) {
       state.entidad = entidad
     },
@@ -82,9 +88,10 @@ const mutations = {
     },
     LIMPIAR_ENTIDAD(state) {
         state.entidad = {
+            id: 0,
             codigo: '',
             nombre: ''
-        }   
+        }
     }
 }
 

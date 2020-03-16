@@ -9,7 +9,6 @@
     "postinstall": "yarn build --fix"
   },
   "dependencies": {
-    "@reststate/vuex": "^0.2.0",
     "axios": "^0.18.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",

@@ -50,6 +50,7 @@
 <script>
   import store from '@/store'
   import router from '@/router'
+  import { mapGetters } from 'vuex'
 
   export default {
     data() {
@@ -59,16 +60,15 @@
           { text: 'Nombre', value: 'nombre' },
           { text: 'Acciones', value: 'actions', sortable: false },
         ],
-        universidades: [],
         errors: []
       }
     },
     methods: {
       crearItem (item) {
-        router.push({ name: 'universidad.crear'})
+        router.push({ name: 'universidades.crear'})
       },
       editarItem (item) {
-        router.push({ name: 'universidad.editar', params: { id: item.id } })
+        router.push({ name: 'universidades.editar', params: { id: item.id } })
       },
       borrarItem (item) {
         const index = this.universidades.indexOf(item)
@@ -76,13 +76,12 @@
       },
     },
     computed: {
-      entidades () {
-        return this.$store.universidades.getters.entidades
-      }
+      ...mapGetters('universidades', {
+        universidades: 'entidades'
+      })
     },
     created() {
       this.$store.dispatch(`universidades/cargarLista`)
-      this.universidades = entidades()
     },
   }
 </script>

@@ -23,9 +23,9 @@ export default new Router({
       path: '/universidades',
       component: Layout,
       children: [
-        { name: 'universidad.index', path: '', component: UniversidadIndex },
-        { name: 'universidad.crear', path: '/universidades/crear', component: UniversidadEditar },
-        { name: 'universidad.editar', path: '/universidades/editar/:id', component: UniversidadEditar },
+        { name: 'universidades.index', path: '', component: UniversidadIndex },
+        { name: 'universidades.crear', path: '/universidades/crear', component: UniversidadEditar },
+        { name: 'universidades.editar', path: '/universidades/editar/:id', component: UniversidadEditar },
       ]
     }
   ]

@@ -1,0 +1,121 @@
+<template>
+  <v-card>
+    <v-toolbar
+      color="primary"
+      dark
+      dense
+      flat
+    >
+      <v-toolbar-title>{{ this.titulo }}</v-toolbar-title>
+    </v-toolbar>
+
+    <v-card-text
+      class="pb-0"
+    >
+      <v-form>
+        <v-row>
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <v-text-field
+              v-model="universidad.codigo"
+              label="Código"
+              name="codigo"
+              type="text"
+            />
+          </v-col>
+
+          <v-col
+            cols="12"
+            md="6"
+          >
+            <v-text-field
+              v-model="universidad.nombre"
+              label="Nombre"
+              name="nombre"
+              type="text"
+            />
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card-text>
+
+    <v-card-actions
+      class="pa-4 pt-0"
+    >
+      <v-spacer />
+      <v-btn
+        color="primary"
+        class="pl-3 pr-3"
+        @click="guardarUniversidad()"
+      >
+        Guardar
+      </v-btn>
+      <v-btn
+        class="pl-3 pr-3"
+        @click="volver()"
+      >
+        Cancelar
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</template>
+
+<script>
+  import store from '@/store'
+  import router from '@/router'
+  import CartaFormulario from '@/components/CartaFormulario'
+  import { mapGetters } from 'vuex'
+
+  export default {
+    components: {
+      CartaFormulario
+    },
+    data() {
+      return {
+        accion: '',
+        titulo: '',
+      }
+    },
+    methods: {
+      obtenerAccion() {
+        let nombreRuta = this.$route.name
+
+        if (nombreRuta.includes('.crear')) {
+          this.accion = 'Crear'
+        }
+        else if (nombreRuta.includes('.editar')) {
+          this.accion = 'Editar'
+        }
+        this.obtenerTitulo()
+      },
+      obtenerTitulo() {
+        this.titulo = this.accion + ' Universidad'
+      },
+      guardarUniversidad() {
+        this.$store.commit('universidades/SETEAR_ENTIDAD', this.universidad)
+        this.$store.dispatch(`universidades/guardar`)
+        .then(respuesta => {
+          router.push({ name: 'universidades.index' })
+        })
+        .catch(e => {
+          console.log(e)
+        })
+      },
+      volver() {
+          router.push({ name: 'universidades.index' })
+      }
+    },
+    created() {
+      this.obtenerAccion()
+      this.$store.commit(`universidades/SETEAR_ID`, this.$route.params.id ?? 0)
+      this.$store.dispatch(`universidades/cargar`)
+    },
+    computed: {
+      ...mapGetters('universidades', {
+        universidad: 'entidad'
+      })
+    }
+}
+</script>
