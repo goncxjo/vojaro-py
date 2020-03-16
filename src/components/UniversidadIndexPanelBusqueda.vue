@@ -7,10 +7,11 @@
           md="6"
         >
           <v-text-field
-            v-model="codigo"
+            v-model="filtro.codigo"
             label="Codigo"
             name="codigo"
             type="text"
+            v-on:keyup.enter="filtrar()"
           />
         </v-col>
 
@@ -19,10 +20,11 @@
           md="6"
         >
           <v-text-field
-            v-model="nombre"
+            v-model="filtro.nombre"
             label="Nombre"
             name="nombre"
             type="text"
+            v-on:keyup.enter="filtrar()"
           />
         </v-col>
       </v-row>
@@ -31,6 +33,7 @@
       <v-btn
         color="primary"
         class="pl-3 pr-3"
+        @click="filtrar()"
       >
         Buscar
       </v-btn>
@@ -40,6 +43,7 @@
 
 <script>
   import CartaFormulario from '@/components/CartaFormulario'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -47,8 +51,15 @@
     },
     data() {
       return {
-        codigo: '',
-        nombre: '',
+        filtro: {
+          codigo: '',
+          nombre: '',
+        }
+      }
+    },
+    methods: {
+      filtrar() {
+        this.$store.commit('universidades/filtrar', this.filtro)
       }
     }
   }

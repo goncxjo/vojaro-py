@@ -94,23 +94,20 @@
         this.titulo = this.accion + ' Universidad'
       },
       guardarUniversidad() {
-        this.$store.commit('universidades/SETEAR_ENTIDAD', this.universidad)
-        this.$store.dispatch(`universidades/guardar`)
-        .then(respuesta => {
-          router.push({ name: 'universidades.index' })
-        })
+        this.$store.dispatch(`universidades/guardar`, this.universidad)
+        .then(respuesta => this.volver())
         .catch(e => {
           console.log(e)
         })
       },
       volver() {
+          this.$store.commit(`universidades/limpiarEntidad`)
           router.push({ name: 'universidades.index' })
       }
     },
     created() {
       this.obtenerAccion()
-      this.$store.commit(`universidades/SETEAR_ID`, this.$route.params.id ?? 0)
-      this.$store.dispatch(`universidades/cargar`)
+      this.$store.dispatch(`universidades/cargar`, this.$route.params.id ?? 0)
     },
     computed: {
       ...mapGetters('universidades', {

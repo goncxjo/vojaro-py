@@ -10,11 +10,16 @@ export default {
         return axios.get(`${recurso}/${id}`)
     },
     guardar(entidad) {
+        let payload = {
+            codigo: entidad.codigo,
+            nombre: entidad.nombre,
+        }
+
         if (entidad.id) {
-            return axios.put(`${recurso}/${id}`, entidad)
+            return axios.put(`${recurso}/${entidad.id}`, payload)
         }
         else {
-            return axios.post(recurso, entidad)
+            return axios.post(recurso, payload)
         }        
     },
 }

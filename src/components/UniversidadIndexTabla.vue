@@ -77,7 +77,7 @@
     },
     computed: {
       ...mapGetters('universidades', {
-        universidades: 'entidades'
+        universidades: 'entidadesFiltradas'
       })
     },
     created() {

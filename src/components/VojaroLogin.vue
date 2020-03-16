@@ -7,14 +7,14 @@
         <v-text-field
           label="Nombre de usuario"
           name="nombre_usuario"
-          prepend-icon="person"
+          prepend-icon="mdi-account"
           type="text"
         />
 
         <v-text-field
           label="Contraseña"
           name="password"
-          prepend-icon="lock"
+          prepend-icon="mdi-lock"
           type="password"
         />
       </v-form>

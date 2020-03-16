@@ -1,31 +1,39 @@
 import { httpClient } from '@/api'
 
 const state = {
-    id: 0,
     entidad: {
-        id: 0,
-        codigo: '',
-        nombre: ''
+      id: 0,
+      codigo: '',
+      nombre: ''
     },
-    entidades: []
+    filtro: {
+      codigo: '',
+      nombre: ''
+    },
+    entidades: [],
 }
 
 const getters = {
     entidad: state => state.entidad,
-    entidades: state => state.entidades
+    entidades: state => state.entidades,
+    entidadesFiltradas: state => {
+      return state.entidades.filter(u => {
+        return u.codigo.toLowerCase().includes(state.filtro.codigo) && u.nombre.toLowerCase().includes(state.filtro.nombre)
+      })
+    }
 }
-22
+
 const actions = {
-    cargar ({ commit, state }) {
-      if (state.id) {
+    cargar ({ commit }, id) {
+      if (id) {
         httpClient.universidades
-        .obtenerPorId(state.id)
+        .obtenerPorId(id)
         .then(r => r.data)
         .then(entidad => {
-          commit('SETEAR_ENTIDAD', entidad)
+          commit('setear', entidad)
         })
       } else {
-        commit('LIMPIAR_ENTIDAD')
+        commit('limpiarEntidad')
       }
     },
     cargarLista ({ commit }) {
@@ -33,65 +41,46 @@ const actions = {
         .obtenerTodos()
         .then(r => r.data)
         .then(entidades => {
-          commit('SETEAR_ENTIDADES', entidades)
+          commit('setearLista', entidades)
         })
         .catch(e => {
             console.log(e)
         })
     },
-    guardar ({ commit, state }) {
-        let payload = {
-            codigo: state.entidad.codigo,
-            nombre: state.entidad.nombre,
-        }
+    guardar ({ }, entidad) {
+      let payload = {
+          id: entidad.id,
+          codigo: entidad.codigo,
+          nombre: entidad.nombre,
+      }
 
-        if (state.entidad.id) {
-            payload.id = state.entidad.id
-        }
-  
-        httpClient.universidades
-            .guardar(payload)
-            .then(response => {
-                commit('AGREGAR_ENTIDAD', response.data)
-                commit('LIMPIAR_ENTIDAD')
-                return response
-            }).catch(e => {
-                console.log(e)
-            })
-
-    },
-    limpiar ({ commit }) {
-      commit('LIMPIAR_ENTIDAD')
+      httpClient.universidades
+          .guardar(payload)
+          .then(response => response)
+          .catch(e => {
+              console.log(e)
+          })
     }
 }
 
 const mutations = {
-    SETEAR_ID(state, id) {
-      state.id = id
-    },
-    SETEAR_ENTIDAD(state, entidad) {
+    setear(state, entidad) {
       state.entidad = entidad
     },
-    SETEAR_ENTIDADES(state, entidades) {
+    setearLista(state, entidades) {
       state.entidades = entidades
+      state.entidadesFiltradas = entidades
     },
-    AGREGAR_ENTIDAD(state, entidadObject) {
-      state.entidades.push(entidadObject)
+    limpiarEntidad(state) {
+      state.entidad = {
+          id: 0,
+          codigo: '',
+          nombre: ''
+      }
     },
-    ACTUALIZAR_ENTIDAD(state, entidad) {
-        const entidadObject = {
-            id: entidad.id,
-            codigo: entidad.codigo,
-            nombre: entidad.nombre,
-        }
-        state.entidades.push(entidadObject)
-    },
-    LIMPIAR_ENTIDAD(state) {
-        state.entidad = {
-            id: 0,
-            codigo: '',
-            nombre: ''
-        }
+    filtrar(state, filtro) {
+      state.filtro.codigo = filtro.codigo.toLowerCase()
+      state.filtro.nombre = filtro.nombre.toLowerCase()
     }
 }
 
