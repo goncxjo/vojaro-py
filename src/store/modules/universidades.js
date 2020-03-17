@@ -1,61 +1,61 @@
 import { httpClient } from '@/api'
 
 const state = {
-    entidad: {
+    entity: {
       id: 0,
       codigo: '',
       nombre: ''
     },
-    filtro: {
+    filter: {
       codigo: '',
       nombre: ''
     },
-    entidades: [],
+    entities: [],
 }
 
 const getters = {
-    entidad: state => state.entidad,
-    entidades: state => state.entidades,
-    entidadesFiltradas: state => {
-      return state.entidades.filter(u => {
-        return u.codigo.toLowerCase().includes(state.filtro.codigo) && u.nombre.toLowerCase().includes(state.filtro.nombre)
+    entity: state => state.entity,
+    entities: state => state.entities,
+    filteredCollection: state => {
+      return state.entities.filter(u => {
+        return u.codigo.toLowerCase().includes(state.filter.codigo) && u.nombre.toLowerCase().includes(state.filter.nombre)
       })
     }
 }
 
 const actions = {
-    cargar ({ commit }, id) {
+    load ({ commit }, id) {
       if (id) {
         httpClient.universidades
-        .obtenerPorId(id)
+        .get(id)
         .then(r => r.data)
-        .then(entidad => {
-          commit('setear', entidad)
+        .then(entity => {
+          commit('set', entity)
         })
       } else {
-        commit('limpiarEntidad')
+        commit('clean')
       }
     },
-    cargarLista ({ commit }) {
+    loadCollection ({ commit }) {
       httpClient.universidades
-        .obtenerTodos()
+        .get()
         .then(r => r.data)
-        .then(entidades => {
-          commit('setearLista', entidades)
+        .then(entities => {
+          commit('setCollection', entities)
         })
         .catch(e => {
             console.log(e)
         })
     },
-    guardar ({ }, entidad) {
+    save ({ }, entity) {
       let payload = {
-          id: entidad.id,
-          codigo: entidad.codigo,
-          nombre: entidad.nombre,
+          id: entity.id,
+          codigo: entity.codigo,
+          nombre: entity.nombre,
       }
 
       httpClient.universidades
-          .guardar(payload)
+          .save(payload)
           .then(response => response)
           .catch(e => {
               console.log(e)
@@ -64,23 +64,26 @@ const actions = {
 }
 
 const mutations = {
-    setear(state, entidad) {
-      state.entidad = entidad
+    set(state, entity) {
+      state.entity = entity
     },
-    setearLista(state, entidades) {
-      state.entidades = entidades
-      state.entidadesFiltradas = entidades
-    },
-    limpiarEntidad(state) {
-      state.entidad = {
+    clean(state) {
+      state.entity = {
           id: 0,
           codigo: '',
           nombre: ''
       }
     },
-    filtrar(state, filtro) {
-      state.filtro.codigo = filtro.codigo.toLowerCase()
-      state.filtro.nombre = filtro.nombre.toLowerCase()
+    setCollection(state, entities) {
+      state.entities = entities
+      state.filteredCollection = entities
+    },
+    cleanCollection(state) {
+      state.entities.length = 0
+    },
+    filterCollection(state, filter) {
+      state.filter.codigo = filter.codigo.toLowerCase()
+      state.filter.nombre = filter.nombre.toLowerCase()
     }
 }
 

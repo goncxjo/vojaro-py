@@ -12,7 +12,9 @@
     <v-card-text
       class="pb-0"
     >
-      <v-form>
+      <v-form
+        v-model="isValid"
+      >
         <v-row>
           <v-col
             cols="12"
@@ -21,8 +23,8 @@
             <v-text-field
               v-model="universidad.codigo"
               label="Código"
-              name="codigo"
-              type="text"
+              :rules="reglasCodigo"
+              required
             />
           </v-col>
 
@@ -33,8 +35,8 @@
             <v-text-field
               v-model="universidad.nombre"
               label="Nombre"
-              name="nombre"
-              type="text"
+              :rules="reglasNombre"
+              required
             />
           </v-col>
         </v-row>
@@ -48,13 +50,14 @@
       <v-btn
         color="primary"
         class="pl-3 pr-3"
-        @click="guardarUniversidad()"
+        :disabled="!isValid"
+        @click="save()"
       >
         Guardar
       </v-btn>
       <v-btn
         class="pl-3 pr-3"
-        @click="volver()"
+        @click="goBack()"
       >
         Cancelar
       </v-btn>
@@ -74,44 +77,37 @@
     },
     data() {
       return {
-        accion: '',
-        titulo: '',
+        isValid: true,
+        reglasCodigo: [ v => !!v || 'El código es requerido' ],
+        reglasNombre: [ v => !!v || 'El nombre es requerido' ],
       }
     },
     methods: {
-      obtenerAccion() {
-        let nombreRuta = this.$route.name
-
-        if (nombreRuta.includes('.crear')) {
-          this.accion = 'Crear'
-        }
-        else if (nombreRuta.includes('.editar')) {
-          this.accion = 'Editar'
-        }
-        this.obtenerTitulo()
-      },
-      obtenerTitulo() {
-        this.titulo = this.accion + ' Universidad'
-      },
-      guardarUniversidad() {
-        this.$store.dispatch(`universidades/guardar`, this.universidad)
-        .then(respuesta => this.volver())
+      save() {
+        this.$store.dispatch(`universidades/save`, this.universidad)
+        .then(respuesta => this.goBack())
         .catch(e => {
           console.log(e)
         })
       },
-      volver() {
-          this.$store.commit(`universidades/limpiarEntidad`)
+      goBack() {
+          this.$store.commit(`universidades/clean`)
           router.push({ name: 'universidades.index' })
       }
     },
     created() {
-      this.obtenerAccion()
-      this.$store.dispatch(`universidades/cargar`, this.$route.params.id ?? 0)
+      this.$store.commit(`shared/setTitle`, { 
+        routeName: this.$route.name,
+        entity: 'Universidad'
+      })
+      this.$store.dispatch(`universidades/load`, this.$route.params.id ?? 0)
     },
     computed: {
+      ...mapGetters('shared', {
+        titulo: 'formTitle'
+      }),
       ...mapGetters('universidades', {
-        universidad: 'entidad'
+        universidad: 'entity'
       })
     }
 }

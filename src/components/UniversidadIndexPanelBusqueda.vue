@@ -7,11 +7,11 @@
           md="6"
         >
           <v-text-field
-            v-model="filtro.codigo"
+            v-model="filter.codigo"
             label="Codigo"
             name="codigo"
             type="text"
-            v-on:keyup.enter="filtrar()"
+            v-on:keyup="filterCollection()"
           />
         </v-col>
 
@@ -20,23 +20,14 @@
           md="6"
         >
           <v-text-field
-            v-model="filtro.nombre"
+            v-model="filter.nombre"
             label="Nombre"
             name="nombre"
             type="text"
-            v-on:keyup.enter="filtrar()"
+            v-on:keyup="filterCollection()"
           />
         </v-col>
       </v-row>
-    </template>
-    <template v-slot:btn>
-      <v-btn
-        color="primary"
-        class="pl-3 pr-3"
-        @click="filtrar()"
-      >
-        Buscar
-      </v-btn>
     </template>
   </CartaFormulario>
 </template>
@@ -51,15 +42,15 @@
     },
     data() {
       return {
-        filtro: {
+        filter: {
           codigo: '',
           nombre: '',
         }
       }
     },
     methods: {
-      filtrar() {
-        this.$store.commit('universidades/filtrar', this.filtro)
+      filterCollection() {
+        this.$store.commit('universidades/filterCollection', this.filter)
       }
     }
   }

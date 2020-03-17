@@ -16,7 +16,7 @@
           <v-spacer></v-spacer>
           <v-btn
             text
-            @click="crearItem"
+            @click="create"
           >
             Crear
           </v-btn>
@@ -27,13 +27,13 @@
         <v-icon
           small
           class="mr-2"
-          @click="editarItem(item)"
+          @click="edit(item)"
         >
           mdi-pencil
         </v-icon>
         <v-icon
           small
-          @click="borrarItem(item)"
+          @click="erase(item)"
         >
           mdi-delete
         </v-icon>
@@ -64,24 +64,23 @@
       }
     },
     methods: {
-      crearItem (item) {
-        router.push({ name: 'universidades.crear'})
+      create() {
+        router.push({ name: 'universidades.new'})
       },
-      editarItem (item) {
-        router.push({ name: 'universidades.editar', params: { id: item.id } })
+      edit(item) {
+        router.push({ name: 'universidades.edit', params: { id: item.id } })
       },
-      borrarItem (item) {
-        const index = this.universidades.indexOf(item)
-        confirm('¿Desea eliminar esta universidad?') && this.universidades.splice(index, 1)
+      erase(item) {
+        confirm('¿Desea eliminar esta universidad?')
       },
     },
     computed: {
       ...mapGetters('universidades', {
-        universidades: 'entidadesFiltradas'
+        universidades: 'filteredCollection'
       })
     },
     created() {
-      this.$store.dispatch(`universidades/cargarLista`)
+      this.$store.dispatch(`universidades/loadCollection`)
     },
   }
 </script>

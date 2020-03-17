@@ -1,25 +1,27 @@
 import axios from 'axios'
 
-const recurso = 'universidades'
+const source = 'universidades'
 
 export default {
-    obtenerTodos() {
-        return axios.get(recurso)
-    },
-    obtenerPorId(id) {
-        return axios.get(`${recurso}/${id}`)
-    },
-    guardar(entidad) {
-        let payload = {
-            codigo: entidad.codigo,
-            nombre: entidad.nombre,
-        }
-
-        if (entidad.id) {
-            return axios.put(`${recurso}/${entidad.id}`, payload)
+    get(id) {
+        if (id) {
+            return axios.get(`${source}/${id}`)
         }
         else {
-            return axios.post(recurso, payload)
-        }        
+            return axios.get(source)
+        }
+    },
+    save(entity) {
+        let payload = {
+            codigo: entity.codigo,
+            nombre: entity.nombre,
+        }
+
+        if (entity.id) {
+            return axios.put(`${source}/${entity.id}`, payload)
+        }
+        else {
+            return axios.post(source, payload)
+        }
     },
 }
