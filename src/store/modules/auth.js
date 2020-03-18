@@ -2,11 +2,13 @@ import axios from 'axios'
 import { httpClient } from '@/api'
 
 const state = {
+    // TODO: ver esto
     token: localStorage.getItem('user-token') || '',
     status: '',
 }
 
 const getters = {
+    // TODO: ver esto
     isAuthenticated: state => !!state.token,
     authStatus: state => state.status,
 }
@@ -40,7 +42,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit('logout')
             localStorage.removeItem('user-token')
-            delete axios.defaults.headers.common['Authorization']
             resolve()
         })
     }
@@ -63,8 +64,13 @@ const mutations = {
         state.status = 'error'
     },
     logout(state) {
-        axios.defaults.auth = { }
+        axios.interceptors.request.use(function (config) {
+            config.headers['Authorization'] = ''
+            return config
+        })
         state.status = ''
+        // TODO: ver esto
+        state.token = ''
     }
 }
 

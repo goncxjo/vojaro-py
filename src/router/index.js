@@ -37,6 +37,7 @@ export default new Router({
     {
       path: '/',
       component: Home,
+      beforeEnter: ifAuthenticated
     },
     {
       path: '/universidades',

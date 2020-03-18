@@ -20,27 +20,20 @@
         v-if="showItems"
       >
         <v-btn
-          v-for="modulo in modulos"
-          :key="modulo.ruta"
-          :to="modulo.ruta"
-        >
+          v-for="item in modules"
+          :key="item.route"
+          :to="item.route"
           text
-          {{ modulo.titulo }}
+        >
+          {{ item.title }}
         </v-btn>
 
         <v-btn 
-          to="/login"
-          icon
-          text
-        >
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
-        <v-btn
           @click="logout()"
           icon
           text
         >
-          <v-icon>mdi-account</v-icon>
+          <v-icon>mdi-account-circle</v-icon>
         </v-btn>
       </div>
     </v-app-bar>
@@ -66,25 +59,24 @@
 
     data() {
       return {
-        modulos: [
+        modules: [
           {
-            ruta: '/universidades',
-            titulo: 'Universidades'
+            route: '/universidades',
+            title: 'Universidades'
           },
           {
-            ruta: '/carreras',
-            titulo: 'Carreras'
+            route: '/carreras',
+            title: 'Carreras'
           },
           {
-            ruta: '/asignaturas',
-            titulo: 'Asignaturas'
+            route: '/asignaturas',
+            title: 'Asignaturas'
           },
         ]
       }
     },
     methods: {
       logout() {
-        const { username, password } = this
         this.$store.dispatch('auth/logout')
         .then(() => {
           this.$router.push('/login')
@@ -94,10 +86,14 @@
     created() {
       axios.interceptors.response.use(undefined, function (err) {
         return new Promise(function (resolve, reject) {
+          console.log(err)
           if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
             this.$store.dispatch('auth/logout')
             .then(() => {
               this.$router.push('/login')
+            })
+            .catch(err => {
+              console.log(err)
             })
           }
 
