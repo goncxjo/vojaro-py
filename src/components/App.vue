@@ -17,7 +17,7 @@
       <v-spacer></v-spacer>
 
       <div
-        v-if="showItems()"
+        v-if="showItems"
       >
         <v-btn
           v-for="modulo in modulos"
