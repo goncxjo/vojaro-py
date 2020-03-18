@@ -16,27 +16,33 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        v-for="modulo in modulos"
-        :key="modulo.ruta"
-        :to="modulo.ruta"
-        text
+      <div
+        v-if="showItems()"
       >
-        {{ modulo.titulo }}
-      </v-btn>
+        <v-btn
+          v-for="modulo in modulos"
+          :key="modulo.ruta"
+          :to="modulo.ruta"
+        >
+          text
+          {{ modulo.titulo }}
+        </v-btn>
 
-      <v-btn icon
-        to="/login"
-        text
-      >
-        <v-icon>mdi-account-circle</v-icon>
-      </v-btn>
-      <v-btn icon
-        @click="logout()"
-        text
-      >
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
+        <v-btn 
+          to="/login"
+          icon
+          text
+        >
+          <v-icon>mdi-account-circle</v-icon>
+        </v-btn>
+        <v-btn
+          @click="logout()"
+          icon
+          text
+        >
+          <v-icon>mdi-account</v-icon>
+        </v-btn>
+      </div>
     </v-app-bar>
     
     <v-content class="navbar-top-padding">
@@ -89,7 +95,7 @@
       axios.interceptors.response.use(undefined, function (err) {
         return new Promise(function (resolve, reject) {
           if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-            this.$store.dispatch(AUTH_LOGOUT)
+            this.$store.dispatch('auth/logout')
             .then(() => {
               this.$router.push('/login')
             })
@@ -98,6 +104,11 @@
           throw err
         })
       })
+    },
+    computed: {
+      showItems() {
+        return store.getters['auth/isAuthenticated']
+      }
     }
   }
 </script>
