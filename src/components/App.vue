@@ -31,6 +31,12 @@
       >
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
+      <v-btn icon
+        @click="logout()"
+        text
+      >
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
     </v-app-bar>
     
     <v-content class="navbar-top-padding">
@@ -46,29 +52,54 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import store from '@/store'
+  
+  export default {
+    name: 'App',
 
-export default {
-  name: 'App',
+    data() {
+      return {
+        modulos: [
+          {
+            ruta: '/universidades',
+            titulo: 'Universidades'
+          },
+          {
+            ruta: '/carreras',
+            titulo: 'Carreras'
+          },
+          {
+            ruta: '/asignaturas',
+            titulo: 'Asignaturas'
+          },
+        ]
+      }
+    },
+    methods: {
+      logout() {
+        const { username, password } = this
+        this.$store.dispatch('auth/logout')
+        .then(() => {
+          this.$router.push('/login')
+        })
+      }
+    },
+    created() {
+      axios.interceptors.response.use(undefined, function (err) {
+        return new Promise(function (resolve, reject) {
+          if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+            this.$store.dispatch(AUTH_LOGOUT)
+            .then(() => {
+              this.$router.push('/login')
+            })
+          }
 
-  data() {
-    return {
-      modulos: [
-        {
-          ruta: '/universidades',
-          titulo: 'Universidades'
-        },
-        {
-          ruta: '/carreras',
-          titulo: 'Carreras'
-        },
-        {
-          ruta: '/asignaturas',
-          titulo: 'Asignaturas'
-        },
-      ]
+          throw err
+        })
+      })
     }
   }
-}
 </script>
 
 <style lang="sass">

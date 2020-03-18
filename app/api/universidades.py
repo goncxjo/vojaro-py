@@ -9,8 +9,12 @@ from app import db
 from app.models import Universidad
 from app.schemas import UniversidadSchema
 
+class SecureResource(Resource):
+    """ Calls require_auth decorator on all requests """
+    method_decorators = [require_auth]
+
 @api_rest.route('/universidades')
-class UniversidadesAll(Resource):
+class UniversidadesRoot(SecureResource):
     """ Unsecure Universidades Class: Inherit from Resource """
 
     def get(self):
@@ -41,7 +45,7 @@ class UniversidadesAll(Resource):
         return response
         
 @api_rest.route('/universidades/<int:id>')
-class UniversidadOne(Resource):
+class UniversidadId(SecureResource):
     """ Unsecure Universidad Class: Inherit from Resource """
 
     def get(self, id):

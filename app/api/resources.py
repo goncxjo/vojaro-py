@@ -15,7 +15,6 @@ class SecureResource(Resource):
     """ Calls require_auth decorator on all requests """
     method_decorators = [require_auth]
 
-
 @api_rest.route('/resource/<string:resource_id>')
 class ResourceOne(Resource):
     """ Unsecure Resource Class: Inherit from Resource """
