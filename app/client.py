@@ -1,5 +1,4 @@
-""" Client App """
-
+#!flask/bin/python
 import os
 from flask import Blueprint, render_template
 

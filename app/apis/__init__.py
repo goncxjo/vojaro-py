@@ -1,16 +1,14 @@
 #!flask/bin/python
 from flask import Blueprint
 from flask_restx import Api
+from flask_cors import CORS
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
+CORS(blueprint
+    , allow_headers=['Content-Type', 'Authorization', 'Access-Control-Allow-Headers']
+    , supports_credentials=True)
+
 api = Api(blueprint)
-
-
-@blueprint.after_request
-def add_header(response):
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
-    return response
-
 
 from .auth import api as auth_namespace
 from .usuarios import api as usuarios_namespace

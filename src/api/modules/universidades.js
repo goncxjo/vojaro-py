@@ -1,14 +1,16 @@
 import axios from 'axios'
+import { config } from '@/api'
 
-const source = 'universidades'
+config.baseURL = '/api/universidades/'
+const http = axios.create(config)
 
 export default {
     get(id) {
         if (id) {
-            return axios.get(`${source}/${id}`)
+            return http.get(`${id}`)
         }
         else {
-            return axios.get(source)
+            return http.get()
         }
     },
     save(entity) {
@@ -18,10 +20,10 @@ export default {
         }
 
         if (entity.id) {
-            return axios.put(`${source}/${entity.id}`, payload)
+            return http.put(`${entity.id}`, payload)
         }
         else {
-            return axios.post(source, payload)
+            return http.post(payload)
         }
     },
 }

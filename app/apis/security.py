@@ -1,4 +1,4 @@
-# decorators
+#!flask/bin/python
 from functools import wraps
 from flask import request, g
 from flask_restx import abort
@@ -9,17 +9,20 @@ from app.models import Usuario
 def require_authorization(func):
     """ Secure method decorator """
     @wraps(func)
+
     def wrapper(*args, **kwargs):
         if request.headers.get('authorization'):
             return func(*args, **kwargs)
         else:
-            return abort(401)
+            return abort(401, message="Usted no ha inicado sesión")
+
     return wrapper
 
 
 def verify_password(func):
     """ Secure method decorator """
     @wraps(func)
+
     def wrapper(*args, **kwargs):
         credentials = request.authorization
         if credentials is not None:
@@ -29,5 +32,6 @@ def verify_password(func):
                 if user.check_password(credentials.password):
                     return func(*args, **kwargs)
         else:
-            return abort(401)
+            return abort(401, message="Credenciales incorrectas")
+
     return wrapper

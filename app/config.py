@@ -1,3 +1,5 @@
+#!flask/bin/python
+
 """
 Global Flask Application Setting
 

@@ -1,4 +1,4 @@
-import { httpClient } from '@/api'
+import universidades from '@/api/modules/universidades'
 
 const state = {
     entity: {
@@ -26,8 +26,7 @@ const getters = {
 const actions = {
     load ({ commit }, id) {
       if (id) {
-        httpClient.universidades
-        .get(id)
+        universidades.get(id)
         .then(r => r.data)
         .then(entity => {
           commit('set', entity)
@@ -37,8 +36,7 @@ const actions = {
       }
     },
     loadCollection ({ commit }) {
-      httpClient.universidades
-        .get()
+      universidades.get()
         .then(r => r.data)
         .then(entities => {
           commit('setCollection', entities)
@@ -54,8 +52,7 @@ const actions = {
           nombre: entity.nombre,
       }
 
-      httpClient.universidades
-          .save(payload)
+      universidades.save(payload)
           .then(response => response)
           .catch(e => {
               console.log(e)

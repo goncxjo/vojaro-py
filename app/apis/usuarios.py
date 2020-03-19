@@ -2,18 +2,17 @@
 from flask import request, jsonify, Response
 from flask_restx import Resource, Namespace
 
-from .security import require_authorization, verify_password
-
 from app import db
-from app.models.usuario import Usuario
-from app.schemas.usuario import UsuarioSchema
+from app.models import Usuario
+from app.schemas import UsuarioSchema
+from .security import require_authorization
 
 api = Namespace('usuarios')
 
 
 class SecureResource(Resource):
     """ Calls require_auth decorator on all requests """
-    method_decorators = [require_authorization, verify_password]
+    method_decorators = [require_authorization]
 
 
 @api.route('/')

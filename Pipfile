@@ -12,6 +12,7 @@ psycopg2 = "*"
 flask-migrate = "*"
 flask-sqlalchemy = "*"
 marshmallow = "*"
+flask-cors = "*"
 
 [dev-packages]
 pytest = "*"

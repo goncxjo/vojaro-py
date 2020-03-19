@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { httpClient } from '@/api'
+import auth from '@/api/modules/auth'
 
 const state = {
     // TODO: ver esto
@@ -17,18 +16,12 @@ const actions = {
     login({ commit }, user) {
         return new Promise((resolve, reject) => {
             commit('login', user)
-            httpClient.auth
-            .requestToken(user)
+            auth.requestToken(user)
             .then(response => {
                 const token = response.data.token
                 localStorage.setItem('user-token', token)
-
-                axios.interceptors.request.use(function (config) {
-                    config.headers['Authorization'] = token
-                    return config
-                  })
-
-                  commit('success', token)
+                // axios.defaults.headers.common['Authorization'] = token;
+                commit('success', token)
                 resolve(response)
             })
             .catch(err => {
@@ -49,10 +42,10 @@ const actions = {
 
 const mutations = {
     login(state, user) {
-        axios.defaults.auth = {
+        auth.setUser({
             username: user.username,
             password: user.password,
-        }
+        })
         state.status = 'loading'
     },
     success(state, token) {
@@ -60,16 +53,12 @@ const mutations = {
         state.token = token
     },
     error(state) {
-        axios.defaults.auth = { }
+        auth.cleanUser()
         state.status = 'error'
     },
     logout(state) {
-        axios.interceptors.request.use(function (config) {
-            config.headers['Authorization'] = ''
-            return config
-        })
+        // axios.defaults.headers.common['Authorization'] = '';
         state.status = ''
-        // TODO: ver esto
         state.token = ''
     }
 }

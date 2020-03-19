@@ -2,8 +2,8 @@
 from flask import jsonify, g
 from flask_restx import Resource, Namespace
 
-from .security import require_authorization, verify_password
 from app import db
+from .security import require_authorization, verify_password
 
 api = Namespace('auth')
 
