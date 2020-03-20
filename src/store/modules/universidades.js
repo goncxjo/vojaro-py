@@ -53,10 +53,10 @@ const actions = {
       }
 
       universidades.save(payload)
-          .then(response => response)
-          .catch(e => {
-              console.log(e)
-          })
+        .then(response => response)
+        .catch(e => {
+            console.log(e)
+        })
     }
 }
 

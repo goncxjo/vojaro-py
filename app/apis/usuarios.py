@@ -5,18 +5,17 @@ from flask_restx import Resource, Namespace
 from app import db
 from app.models import Usuario
 from app.schemas import UsuarioSchema
-from .security import require_authorization
+from .auth import token_auth
 
 api = Namespace('usuarios')
 
 
 class SecureResource(Resource):
     """ Calls require_auth decorator on all requests """
-    method_decorators = [require_authorization]
+    method_decorators = [token_auth.verify_token]
 
 
-@api.route('/')
-class UsuariosRoot(SecureResource):
+class UsuarioListAPI(SecureResource):
     def get(self):
         usuarios_objects = Usuario.query.all()
         usuarios = UsuarioSchema(many=True).dump(usuarios_objects)
@@ -34,3 +33,6 @@ class UsuariosRoot(SecureResource):
         db.session.close()
         response = Response(new_usuario, status=201, mimetype='application/json')
         return response
+
+
+api.add_resource(UsuarioListAPI, '/')

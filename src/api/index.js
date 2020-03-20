@@ -1,5 +1,5 @@
 export const config = {
-  baseURL: '/api/',
+  baseURL: '/api',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',

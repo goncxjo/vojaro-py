@@ -20,13 +20,11 @@ const actions = {
             .then(response => {
                 const token = response.data.token
                 localStorage.setItem('user-token', token)
-                // axios.defaults.headers.common['Authorization'] = token;
                 commit('success', token)
                 resolve(response)
             })
             .catch(err => {
                 commit('error', err)
-                localStorage.removeItem('user-token')
                 reject(err)
             })
         })
@@ -34,8 +32,12 @@ const actions = {
     logout({ commit }) {
         return new Promise((resolve, reject) => {
             commit('logout')
-            localStorage.removeItem('user-token')
+            auth.revokeToken()
             resolve()
+            .then(response => {
+                resolve()
+            })
+            .catch(err => { console.log(err) })
         })
     }
 }
@@ -54,10 +56,11 @@ const mutations = {
     },
     error(state) {
         auth.cleanUser()
+        localStorage.removeItem('user-token')
         state.status = 'error'
     },
     logout(state) {
-        // axios.defaults.headers.common['Authorization'] = '';
+        localStorage.removeItem('user-token')
         state.status = ''
         state.token = ''
     }

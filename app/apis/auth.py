@@ -1,27 +1,34 @@
 #!flask/bin/python
-from flask import jsonify, g
-from flask_restx import Resource, Namespace
+from flask import g
+from flask_restx import abort
+from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 
-from app import db
-from .security import require_authorization, verify_password
+from app.models import Usuario
 
-api = Namespace('auth')
-
-
-class SecureResource(Resource):
-    """ Calls require_auth decorator on all requests """
-    method_decorators = [require_authorization, verify_password]
+basic_auth = HTTPBasicAuth()
+token_auth = HTTPTokenAuth()
 
 
-@api.route('/token')
-class AuthToken(SecureResource):
-    def post(self):
-        token = g.current_user.get_token()
-        db.session.commit()
-        return jsonify({ 'token': token })
+@basic_auth.verify_password
+def verify_password(username, password):
+    user = Usuario.query.filter_by(nombre_usuario=username).first()
+    if user is None:
+        return False
+    g.current_user = user
+    return user.check_password(password)
 
 
-@api.route('/logout')
-class AuthLogout(Resource):
-    def post(self):
-        pass
+@basic_auth.error_handler
+def basic_auth_error():
+    return abort(401, message="Credenciales no válidas")
+
+
+@token_auth.verify_token
+def verify_token(token):
+    g.current_user = Usuario.check_token(token) if token else None
+    return g.current_user is not None
+
+
+@token_auth.error_handler
+def token_auth_error():
+    return abort(401, message="Token expirado")

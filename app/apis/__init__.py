@@ -5,15 +5,15 @@ from flask_cors import CORS
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 CORS(blueprint
-    , allow_headers=['Content-Type', 'Authorization', 'Access-Control-Allow-Headers']
-    , supports_credentials=True)
+     , allow_headers=['Content-Type', 'Authorization', 'Access-Control-Allow-Headers']
+     , supports_credentials=True)
 
 api = Api(blueprint)
 
-from .auth import api as auth_namespace
+from .tokens import api as tokens_namespace
 from .usuarios import api as usuarios_namespace
 from .universidades import api as universidades_namespace
 
-api.add_namespace(auth_namespace)
+api.add_namespace(tokens_namespace)
 api.add_namespace(usuarios_namespace)
 api.add_namespace(universidades_namespace)

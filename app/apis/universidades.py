@@ -5,18 +5,17 @@ from flask_restx import Resource, Namespace
 from app import db
 from app.models import Universidad
 from app.schemas import UniversidadSchema
-from .security import require_authorization
+from .auth import token_auth
 
 api = Namespace('universidades')
 
 
 class SecureResource(Resource):
     """ Calls require_authorization decorator on all requests """
-    method_decorators = [require_authorization]
+    method_decorators = [token_auth.verify_token]
 
 
-@api.route('/')
-class UniversidadesList(SecureResource):
+class UniversidadListAPI(SecureResource):
     def get(self):
         query = Universidad.query.all()
         universidades = UniversidadSchema(many=True).dump(query)
@@ -24,10 +23,9 @@ class UniversidadesList(SecureResource):
         return jsonify(universidades)
 
     def post(self):
-        user = request.authorization
         posted_universidad = UniversidadSchema(only=('codigo', 'nombre')) \
             .load(request.get_json())
-        universidad = Universidad(**posted_universidad, creado_por=user.username)
+        universidad = Universidad(**posted_universidad, creado_por='HTTP POST REQUEST')
         db.session.add(universidad)
         db.session.commit()
         new_universidad = UniversidadSchema().dump(universidad)
@@ -37,8 +35,7 @@ class UniversidadesList(SecureResource):
         return response
 
 
-@api.route('/<int:id>')
-class UniversidadEntity(SecureResource):
+class UniversidadAPI(SecureResource):
     def get(self, id):
         universidad_object = Universidad.query.filter_by(id=id).first_or_404()
         universidad = UniversidadSchema().dump(universidad_object)
@@ -57,3 +54,7 @@ class UniversidadEntity(SecureResource):
         db.session.close()
         response = Response(updated_universidad, status=200, mimetype='application/json')
         return response
+
+
+api.add_resource(UniversidadListAPI, '/')
+api.add_resource(UniversidadAPI, '/<int:id>')

@@ -13,6 +13,7 @@ flask-migrate = "*"
 flask-sqlalchemy = "*"
 marshmallow = "*"
 flask-cors = "*"
+flask-httpauth = "*"
 
 [dev-packages]
 pytest = "*"

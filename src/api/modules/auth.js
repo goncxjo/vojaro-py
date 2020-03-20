@@ -1,15 +1,15 @@
 import axios from 'axios'
 import { config } from '@/api'
 
-config.baseURL = '/api/auth/'
 const http = axios.create(config)
 
 export default {
     requestToken(user) {
-        return http.post('token', user)
+        console.log(user)
+        return http.post('tokens/', user)
     },
-    logout(user) {
-        return http.post('logout', user)
+    revokeToken(user) {
+        return http.delete('tokens/', user)
     },
     setUser(user) {
         axios.defaults.auth = {
@@ -21,6 +21,6 @@ export default {
         axios.defaults.auth = {
             username: '',
             password: '',
-            }
+        }
     },
 }
