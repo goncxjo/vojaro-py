@@ -32,4 +32,10 @@ export default {
             })
         }
     },
+    delete(id) {
+        return http({ 
+            method: 'delete', 
+            url: `${source}/${id}`,
+        })
+    },
 }

@@ -5,7 +5,6 @@ const http = axios.create(config)
 
 export default {
     requestToken(user) {
-        console.log(user)
         return http.post('tokens/', user)
     },
     revokeToken(user) {

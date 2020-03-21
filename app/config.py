@@ -10,6 +10,7 @@ import os
 
 db_uri = 'postgresql://postgres:root@localhost:5432/vojaro'
 
+
 class Config(object):
     # If not set fall back to production for safety
     FLASK_ENV =  os.getenv('FLASK_ENV', 'production')

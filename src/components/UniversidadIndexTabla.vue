@@ -71,7 +71,10 @@
         router.push({ name: 'universidades.edit', params: { id: item.id } })
       },
       erase(item) {
-        confirm('¿Desea eliminar esta universidad?')
+        var answer = confirm('¿Desea eliminar esta universidad?')
+        if (answer == true) {
+          this.$store.dispatch('universidades/delete', item.id)
+        }
       },
     },
     computed: {

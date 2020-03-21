@@ -24,40 +24,46 @@ const getters = {
 }
 
 const actions = {
-    load ({ commit }, id) {
-      if (id) {
-        universidades.get(id)
-        .then(r => r.data)
-        .then(entity => {
-          commit('set', entity)
-        })
-      } else {
-        commit('clean')
-      }
-    },
-    loadCollection ({ commit }) {
-      universidades.get()
-        .then(r => r.data)
-        .then(entities => {
-          commit('setCollection', entities)
-        })
-        .catch(e => {
-            console.log(e)
-        })
-    },
-    save ({ }, entity) {
-      let payload = {
-          id: entity.id,
-          codigo: entity.codigo,
-          nombre: entity.nombre,
-      }
-
-      universidades.save(payload)
-        .then(response => response)
-        .catch(e => {
-            console.log(e)
-        })
+  load ({ commit }, id) {
+    if (id) {
+      universidades.get(id)
+      .then(r => r.data)
+      .then(entity => {
+        commit('set', entity)
+      })
+    } else {
+      commit('clean')
     }
+  },
+  loadCollection ({ commit }) {
+    universidades.get()
+      .then(r => r.data)
+      .then(entities => {
+        commit('setCollection', entities)
+      })
+      .catch(e => {
+          console.log(e)
+      })
+  },
+  save ({ }, entity) {
+    let payload = {
+        id: entity.id,
+        codigo: entity.codigo,
+        nombre: entity.nombre,
+    }
+
+    universidades.save(payload)
+      .then(response => response)
+      .catch(e => {
+          console.log(e)
+    })
+  },
+  delete ({ commit, dispatch }, id) {
+    universidades.delete(id)
+    .then(response => response)
+    commit('clean')
+    dispatch('loadCollection')
+  },
 }
 
 const mutations = {

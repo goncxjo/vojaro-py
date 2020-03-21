@@ -1,13 +1,14 @@
 #!flask/bin/python
 from flask import request, jsonify, Response
-from flask_restx import Resource, Namespace
+from flask_restx import Resource
 
 from app import db
 from app.models import Usuario
-from app.schemas import UsuarioSchema
-from .auth import token_auth
+from app.schemas.usuario import UsuarioSchema
+from app.api import api
+from app.api.auth import token_auth
 
-api = Namespace('usuarios')
+ns = api.namespace('usuarios')
 
 
 class SecureResource(Resource):
@@ -15,7 +16,8 @@ class SecureResource(Resource):
     method_decorators = [token_auth.verify_token]
 
 
-class UsuarioListAPI(SecureResource):
+@ns.route('/')
+class UsuarioCollection(SecureResource):
     def get(self):
         usuarios_objects = Usuario.query.all()
         usuarios = UsuarioSchema(many=True).dump(usuarios_objects)
@@ -34,5 +36,3 @@ class UsuarioListAPI(SecureResource):
         response = Response(new_usuario, status=201, mimetype='application/json')
         return response
 
-
-api.add_resource(UsuarioListAPI, '/')

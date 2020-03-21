@@ -16,7 +16,7 @@ app.logger.info('>>> {}'.format(Config.FLASK_ENV))
 db.init_app(app)
 migrate.init_app(app, db)
 
-from .apis import blueprint as api
+from .api import blueprint as api
 app.register_blueprint(api)
 
 

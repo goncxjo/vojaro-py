@@ -2,11 +2,13 @@ from flask import jsonify, g
 from flask_restx import Namespace, Resource
 
 from app import db
-from .auth import basic_auth
+from app.api import api
+from app.api.auth import basic_auth
 
-api = Namespace('tokens')
+ns = api.namespace('tokens')
 
 
+@ns.route('/')
 class TokenAPI(Resource):
     method_decorators = [basic_auth.login_required]
 
@@ -19,6 +21,3 @@ class TokenAPI(Resource):
         g.current_user.revoke_token()
         db.session.commit()
         return '', 204
-
-
-api.add_resource(TokenAPI, '/')

@@ -33,7 +33,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit('logout')
             auth.revokeToken()
-            resolve()
             .then(response => {
                 resolve()
             })
