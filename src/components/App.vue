@@ -1,10 +1,14 @@
 <template>
   <v-app>
     <v-app-bar
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
       app
       color="primary"
       dark
     >
+      <v-app-bar-nav-icon
+        @click.stop="toggleDrawer()"
+      />
       <v-toolbar-title>
         <router-link 
           to="/"
@@ -15,30 +19,11 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-      <div
-        v-if="showItems"
-      >
-        <v-btn
-          v-for="item in modules"
-          :key="item.route"
-          :to="item.route"
-          text
-        >
-          {{ item.title }}
-        </v-btn>
-
-        <v-btn 
-          @click="logout()"
-          icon
-          text
-        >
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
-      </div>
     </v-app-bar>
-    
-    <v-content class="navbar-top-padding">
+    <VojaroNavigationDrawer :drawer="drawer" />
+    <v-content
+      class="navbar-top-padding"
+    >
       <v-container>
         <router-view/>
       </v-container>
@@ -53,34 +38,16 @@
 <script>
   import axios from 'axios'
   import store from '@/store'
+  import VojaroNavigationDrawer from '@/components/VojaroNavigationDrawer'
   
   export default {
     name: 'App',
-
+    components: {
+      VojaroNavigationDrawer
+    },
     data() {
       return {
-        modules: [
-          {
-            route: '/universidades',
-            title: 'Universidades'
-          },
-          {
-            route: '/carreras',
-            title: 'Carreras'
-          },
-          {
-            route: '/asignaturas',
-            title: 'Asignaturas'
-          },
-        ]
-      }
-    },
-    methods: {
-      logout() {
-        this.$store.dispatch('auth/logout')
-        .then(() => {
-          this.$router.push('/login')
-        })
+        drawer: null,
       }
     },
     created() {
@@ -101,9 +68,9 @@
         })
       })
     },
-    computed: {
-      showItems() {
-        return store.getters['auth/isAuthenticated']
+    methods: {
+      toggleDrawer() {
+        this.drawer = !this.drawer
       }
     }
   }
@@ -111,7 +78,7 @@
 
 <style lang="sass">
   .navbar-top-padding
-    padding-top: 100px !important
+    padding-top: 60px !important
 
   .toolbar-title--app
     font-weight: bold
