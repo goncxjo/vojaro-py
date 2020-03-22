@@ -1,13 +1,8 @@
 #!flask/bin/python
 
-import traceback
-
-from flask import Blueprint, current_app
+from flask import Blueprint
 from flask_restx import Api
 from flask_cors import CORS
-from sqlalchemy.orm.exc import NoResultFound
-
-from app.config import Config
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 CORS(blueprint
@@ -16,19 +11,19 @@ CORS(blueprint
 
 api = Api(blueprint)
 
-
-@api.errorhandler
-def default_error_handler(e):
-    message = 'Ha ocurrido una excepción no manejada.'
-
-    if not Config.FLASK_ENV == 'production':
-        return {'message': message}, 500
-
-
-@api.errorhandler(NoResultFound)
-def database_not_found_error_handler(e):
-    current_app.logger.warning('>>> {}'.format(traceback.format_exc()))
-    return {'message': 'Es necesaria una base de datos para continuar.'}, 404
+#
+# @api.errorhandler
+# def default_error_handler(e):
+#     message = 'Ha ocurrido una excepción no manejada.'
+#     print(e)
+#
+#     if not Config.FLASK_ENV == 'production':
+#         return {'message': message}, 500
+#
+#
+# @api.errorhandler(NoResultFound)
+# def database_not_found_error_handler(e):
+#     return {'message': 'No se ha encontrado el registro con el id solicitado'}, 404
 
 
 from .endpoints.tokens import ns as tokens_namespace

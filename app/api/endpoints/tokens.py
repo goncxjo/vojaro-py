@@ -1,9 +1,9 @@
-from flask import jsonify, g
-from flask_restx import Namespace, Resource
+from flask import jsonify
+from flask_restx import Resource
 
-from app import db
 from app.api import api
 from app.api.auth import basic_auth
+from app.api.services import tokens as service
 
 ns = api.namespace('tokens')
 
@@ -13,11 +13,10 @@ class TokenAPI(Resource):
     method_decorators = [basic_auth.login_required]
 
     def post(self):
-        token = g.current_user.get_token()
-        db.session.commit()
+        token = service.get_user_token()
         return jsonify({'token': token})
 
+    @api.response(204, 'Token revocado.')
     def delete(self):
-        g.current_user.revoke_token()
-        db.session.commit()
-        return '', 204
+        service.revoke_user_token()
+        return None, 204

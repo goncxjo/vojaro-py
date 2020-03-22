@@ -1,11 +1,12 @@
 #!flask/bin/python
 from flask import request
-from flask_restx import Resource
+from flask_restx import Resource, abort
+from sqlalchemy.orm.exc import NoResultFound
 
 from app.api import api
 from app.api.auth import token_auth
 from app.api.serializers import universidad_model
-from app.api.business import universidades
+from app.api.services import universidades as service
 
 ns = api.namespace('universidades', description='Operaciones relacionadas a universidades')
 
@@ -22,16 +23,16 @@ class UniversidadCollection(SecureResource):
         """
         Devuelve una lista de universidades
         """
-        return universidades.get_all()
+        return service.get_all()
 
     @api.expect(universidad_model)
-    @api.response(201, 'Universidad creada satisfactoriamente')
+    @api.response(201, 'Universidad creada.')
     def post(self):
         """
         Crea una nueva universidad
         """
         data = request.json
-        universidades.create(data)
+        service.create(data)
         return None, 201
 
 
@@ -43,22 +44,32 @@ class UniversidadItem(SecureResource):
         """
         Devuelve una universidad en base a su ID
         """
-        return universidades.get(id)
+        try:
+            universidades = service.get(id)
+            return universidades
+        except NoResultFound:
+            abort(404, 'No existe una universidad con ese identificador')
 
     @api.expect(universidad_model)
-    @api.response(204, 'Universidad actualizada satisfactoriamente')
+    @api.response(204, 'Universidad actualizada.')
     def put(self, id):
         """
         Actualiza una universidad
         """
-        data = request.json
-        universidades.update(id, data)
-        return None, 204
+        try:
+            data = request.json
+            service.update(id, data)
+            return None, 204
+        except NoResultFound:
+            abort(404, 'No existe una universidad con ese identificador')
 
-    @api.response(204, 'Universidad borrada satisfactoriamente.')
+    @api.response(204, 'Universidad borrada.')
     def delete(self, id):
         """
         Borra una universidad
         """
-        universidades.delete(id)
-        return None, 204
+        try:
+            service.delete(id)
+            return None, 204
+        except NoResultFound:
+            abort(404, 'No existe una universidad con ese identificador')
