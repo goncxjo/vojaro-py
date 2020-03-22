@@ -1,54 +1,31 @@
 <template>
   <v-app>
-    <v-app-bar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      app
-      color="primary"
-      dark
-    >
-      <v-app-bar-nav-icon
-        @click.stop="toggleDrawer()"
-      />
-      <v-toolbar-title>
-        <router-link 
-          to="/"
-          tag="span"
-        >
-          <span class="toolbar-title--app">V O J A R O</span>
-        </router-link>
-      </v-toolbar-title>
-
-      <v-spacer></v-spacer>
-    </v-app-bar>
-    <VojaroNavigationDrawer :drawer="drawer" />
+    <NavBar />
+    <NavigationDrawer />
     <v-content
-      class="navbar-top-padding"
+      class="background--gray"
     >
       <v-container>
         <router-view/>
       </v-container>
     </v-content>
-
-    <v-footer app>
-      <span>&copy; 2020</span>
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 
 <script>
   import axios from 'axios'
   import store from '@/store'
-  import VojaroNavigationDrawer from '@/components/VojaroNavigationDrawer'
-  
+  import NavBar from '@/components/NavBar'
+  import NavigationDrawer from '@/components/NavigationDrawer'
+  import Footer from '@/components/Footer'
+
   export default {
     name: 'App',
     components: {
-      VojaroNavigationDrawer
-    },
-    data() {
-      return {
-        drawer: null,
-      }
+      NavBar,
+      NavigationDrawer,
+      Footer,
     },
     created() {
       axios.interceptors.response.use(undefined, function (err) {
@@ -77,10 +54,7 @@
 </script>
 
 <style lang="sass">
-  .navbar-top-padding
-    padding-top: 60px !important
-
-  .toolbar-title--app
-    font-weight: bold
-    cursor: pointer
+  .background--gray
+    background-color: #F9F9F9
+    height: 100%
 </style>

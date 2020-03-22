@@ -1,13 +1,13 @@
 <template>
-  <VojaroLogin />
+  <LoginForm />
 </template>
 
 <script>
-  import VojaroLogin from '@/components/VojaroLogin'
+  import LoginForm from '@/components/LoginForm'
 
   export default {
     components: {
-      VojaroLogin,
+      LoginForm,
     },
   }
 </script>

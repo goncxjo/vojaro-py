@@ -1,11 +1,25 @@
 <template>
     <v-navigation-drawer
-      v-model="drawer"
-      permanent
-      :clipped="$vuetify.breakpoint.lgAndUp"
+      :value="drawer"
+      v-if="showItems"
+      class="primary"
+      dark
+      right
       app
     >
       <v-list>
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <img src="https://randomuser.me/api/portraits/men/81.jpg">
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>Joan Smith</v-list-item-title>
+            <v-list-item-subtitle>Logged in</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-divider></v-divider>
         <v-list-item
           v-for="item in items"
           :key="item.title"
@@ -26,8 +40,9 @@
           <v-btn
             @click="logout()"
             block
+            text
           >
-            Logout
+            Cerrar sesión
           </v-btn>
         </div>
       </template>
@@ -37,15 +52,15 @@
 <script>
   import axios from 'axios'
   import store from '@/store'
-  
+  import { mapGetters } from 'vuex'
+
   export default {
-    props: ['drawer'],
     data() {
       return {
         items: [
           {
             title: 'Universidades',
-            icon: 'mdi-view-dashboard',
+            icon: 'mdi-school',
             route: '/universidades',
           },
           {
@@ -55,7 +70,7 @@
           },
           {
             title: 'Asignaturas',
-            icon: 'mdi-view-dashboard',
+            icon: 'mdi-teach',
             route: '/asignaturas',
           },
         ]
@@ -73,37 +88,13 @@
         })
       }
     },
-    created() {
-      axios.interceptors.response.use(undefined, function (err) {
-        return new Promise(function (resolve, reject) {
-          console.log(err)
-          if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-            this.$store.dispatch('auth/logout')
-            .then(() => {
-              this.$router.push('/login')
-            })
-            .catch(err => {
-              console.log(err)
-            })
-          }
-
-          throw err
-        })
-      })
-    },
     computed: {
       showItems() {
         return store.getters['auth/isAuthenticated']
-      }
+      },
+      ...mapGetters('shared', {
+        drawer: 'drawer'
+      }),
     }
   }
 </script>
-
-<style lang="sass">
-  .navbar-top-padding
-    padding-top: 100px !important
-
-  .toolbar-title--app
-    font-weight: bold
-    cursor: pointer
-</style>

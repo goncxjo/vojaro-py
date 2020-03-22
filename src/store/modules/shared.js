@@ -1,9 +1,11 @@
 const state = {
+    drawer: true,
     formTitle: '',
 }
 
 const getters = {
-    formTitle: state => state.formTitle
+    formTitle: state => state.formTitle,
+    drawer: state => state.drawer,
 }
 
 const actions = {
@@ -22,6 +24,9 @@ const mutations = {
 
         state.formTitle = action + ' ' + payload.entity
     },
+    toggleDrawer(state) {
+        state.drawer = !state.drawer
+    }
 }
 
 export default {
