@@ -1,4 +1,5 @@
 <template>
+  <div>
 <v-card>
   <v-data-table
       :headers="headers"
@@ -7,34 +8,59 @@
     >
       <template v-slot:top>
         <v-toolbar
-          dense
+          color="primary"
+          dark
           flat
         >
-          <v-toolbar-title class="primary--text">Universidades</v-toolbar-title>
+          <v-toolbar-title>Universidades</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn
-            text
+            class="mx-2"
+            depressed
+            fab
+            small
+            color="primary"
+            @click="refresh"
+          >
+            <v-icon dark>mdi-refresh</v-icon>
+          </v-btn>
+          <v-btn
+            class="mx-2"
+            depressed
+            fab
+            dark
+            small
+            color="primary"
             @click="create"
           >
-            Crear
+            <v-icon dark>mdi-plus</v-icon>
           </v-btn>
         </v-toolbar>
       </template>
     
       <template v-slot:item.actions="{ item }">
-        <v-icon
-          small
-          class="mr-2"
+        <v-btn
+          class="mx-2"
+          depressed
+          fab
+          dark
+          x-small
+          color="success"
           @click="edit(item)"
         >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          small
+          <v-icon dark>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn
+          class="mx-2"
+          depressed
+          fab
+          dark
+          x-small
+          color="error"
           @click="erase(item)"
         >
-          mdi-delete
-        </v-icon>
+          <v-icon dark>mdi-delete</v-icon>
+        </v-btn>
       </template>
       <template v-slot:no-data>
         <v-alert type="warning">
@@ -43,6 +69,7 @@
       </template>
     </v-data-table>
   </v-card>
+  </div>
 </template>
 
 <script>
@@ -54,9 +81,9 @@
     data() {
       return {
         headers: [
+          { text: 'Acciones', value: 'actions', sortable: false },
           { text: 'Codigo', value: 'codigo' },
           { text: 'Nombre', value: 'nombre' },
-          { text: 'Acciones', value: 'actions', sortable: false },
         ],
         errors: []
       }
@@ -74,6 +101,9 @@
           this.$store.dispatch('universidades/delete', item.id)
         }
       },
+      refresh() {
+        this.$store.dispatch(`universidades/loadCollection`)
+      }
     },
     computed: {
       ...mapGetters('universidades', {

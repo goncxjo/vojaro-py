@@ -1,16 +1,15 @@
 <template>
   <v-card>
     <v-toolbar
-      class="primary--text"
+      color="primary"
+      dark
       dense
       flat
     >
       <v-toolbar-title>{{ this.titulo }}</v-toolbar-title>
     </v-toolbar>
 
-    <v-card-text
-      class="py-0"
-    >
+    <v-card-text>
       <v-form
         v-model="isValid"
       >

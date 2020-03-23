@@ -1,5 +1,5 @@
 <template>
-  <CartaFormulario titulo="Buscar">
+  <CartaFormulario>
     <template v-slot:form>
       <v-row>
         <v-col

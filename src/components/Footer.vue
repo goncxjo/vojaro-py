@@ -9,10 +9,10 @@
 
 <script>
 export default {
-    computed() {
-        year: {
-            return Date.now().year
-        }
+    computed: {
+      year() {
+          return Date.now().year
+      }
     } 
 }
 </script>
