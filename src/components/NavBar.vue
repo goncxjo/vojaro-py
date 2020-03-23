@@ -1,7 +1,8 @@
 <template>
   <v-app-bar
+  class="app-bar--primary-border"
     color="white"
-    elevate-on-scroll
+    clipped-right
     flat
     app
   >
@@ -42,6 +43,9 @@
 </script>
 
 <style lang="sass">
+  .app-bar--primary-border .v-toolbar__content
+    border-bottom: 3px solid var(--v-primary-base)
+
   .toolbar-title--app
     cursor: pointer
     font-weight: 500

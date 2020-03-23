@@ -2,8 +2,7 @@
     <v-navigation-drawer
       :value="drawer"
       v-if="showItems"
-      class="primary"
-      dark
+      clipped
       right
       app
     >

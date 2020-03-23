@@ -1,8 +1,7 @@
 <template>
   <v-card>
     <v-toolbar
-      color="primary"
-      dark
+      class="primary--text"
       dense
       flat
     >
@@ -10,7 +9,7 @@
     </v-toolbar>
 
     <v-card-text
-      class="pb-0"
+      class="py-0"
     >
       <v-form
         v-model="isValid"

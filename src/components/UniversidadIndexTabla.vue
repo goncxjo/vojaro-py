@@ -7,12 +7,10 @@
     >
       <template v-slot:top>
         <v-toolbar
-          color="primary"
-          dark
           dense
           flat
         >
-          <v-toolbar-title>Universidades</v-toolbar-title>
+          <v-toolbar-title class="primary--text">Universidades</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn
             text

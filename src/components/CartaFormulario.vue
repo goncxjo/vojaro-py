@@ -1,16 +1,14 @@
 <template>
   <v-card>
     <v-toolbar
-      color="primary"
-      dark
       dense
       flat
     >
-      <v-toolbar-title>{{ titulo }}</v-toolbar-title>
+      <v-toolbar-title class="primary--text">{{ titulo }}</v-toolbar-title>
     </v-toolbar>
 
     <v-card-text
-      class="pb-0"
+      class="py-0"
     >
         <slot name="form"></slot>
     </v-card-text>
