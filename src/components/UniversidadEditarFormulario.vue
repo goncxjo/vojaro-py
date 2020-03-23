@@ -23,6 +23,7 @@
               label="Código"
               :rules="reglasCodigo"
               required
+              :disabled="readonly"
             />
           </v-col>
 
@@ -35,6 +36,7 @@
               label="Nombre"
               :rules="reglasNombre"
               required
+              :disabled="readonly"
             />
           </v-col>
         </v-row>
@@ -102,7 +104,8 @@
     },
     computed: {
       ...mapGetters('shared', {
-        titulo: 'formTitle'
+        titulo: 'formTitle',
+        readonly: 'formReadonly',
       }),
       ...mapGetters('universidades', {
         universidad: 'entity'

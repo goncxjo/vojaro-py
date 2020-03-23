@@ -7,6 +7,7 @@
     app
   >
     <v-app-bar-nav-icon
+      class="primary--text"
       v-if="showNavIcon"
       @click="toggleDrawer()"
       ></v-app-bar-nav-icon>

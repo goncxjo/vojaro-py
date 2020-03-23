@@ -1,6 +1,5 @@
 <template>
     <v-footer
-      inset
       app
     >
       <span>&copy; 2020</span>

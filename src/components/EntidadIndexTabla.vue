@@ -45,6 +45,17 @@
           fab
           dark
           x-small
+          color="info"
+          @click="view(item)"
+        >
+          <v-icon dark>mdi-magnify</v-icon>
+        </v-btn>
+        <v-btn
+          class="mx-2"
+          depressed
+          fab
+          dark
+          x-small
           color="success"
           @click="edit(item)"
         >
@@ -82,6 +93,9 @@
     methods: {
       create() {
         router.push({ name: `${this.source}.new`})
+      },
+      view(item) {
+        router.push({ name: `${this.source}.view`, params: { id: item.id } })
       },
       edit(item) {
         router.push({ name: `${this.source}.edit`, params: { id: item.id } })

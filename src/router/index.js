@@ -46,7 +46,8 @@ export default new Router({
       children: [
         { name: 'universidades.index', path: '', component: UniversidadIndex },
         { name: 'universidades.new', path: '/universidades/new', component: UniversidadEditar },
-        { name: 'universidades.edit', path: '/universidades/edit/:id', component: UniversidadEditar },
+        { name: 'universidades.view', path: '/universidades/:id/view', component: UniversidadEditar },
+        { name: 'universidades.edit', path: '/universidades/:id/edit', component: UniversidadEditar },
       ],
       beforeEnter: ifAuthenticated,
     },
@@ -57,7 +58,8 @@ export default new Router({
       children: [
         { name: 'asignaturas.index', path: '', component: AsignaturaIndex },
         { name: 'asignaturas.new', path: '/asignaturas/new', component: UniversidadEditar },
-        { name: 'asignaturas.edit', path: '/asignaturas/edit/:id', component: UniversidadEditar },
+        { name: 'asignaturas.view', path: '/asignaturas/:id/view', component: UniversidadEditar },
+        { name: 'asignaturas.edit', path: '/asignaturas/:id/edit', component: UniversidadEditar },
       ],
       beforeEnter: ifAuthenticated,
     },
