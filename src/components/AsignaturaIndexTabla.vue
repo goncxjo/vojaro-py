@@ -13,6 +13,9 @@
   import EntidadIndexTabla from '@/components/EntidadIndexTabla'
 
   export default {
+    components: {
+      EntidadIndexTabla
+    },
     data() {
       return {
         headers: [

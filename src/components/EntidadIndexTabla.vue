@@ -2,7 +2,7 @@
   <v-card>
     <v-data-table
       :headers="headers"
-      :items="universidades"
+      :items="items"
       :items-per-page="5"
     >
       <template v-slot:top>
@@ -78,40 +78,31 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    data() {
-      return {
-        headers: [
-          { text: 'Acciones', value: 'actions', sortable: false },
-          { text: 'Codigo', value: 'codigo' },
-          { text: 'Nombre', value: 'nombre' },
-        ],
-        errors: []
-      }
-    },
+    props: ['source', 'headers', 'nombreSingular', 'nombrePlural'],
     methods: {
       create() {
-        router.push({ name: 'universidades.new'})
+        router.push({ name: `${this.source}.new`})
       },
       edit(item) {
-        router.push({ name: 'universidades.edit', params: { id: item.id } })
+        router.push({ name: `${this.source}.edit`, params: { id: item.id } })
       },
       erase(item) {
-        var answer = confirm('¿Desea eliminar esta universidad?')
+        var answer = confirm('¿Desea eliminar este registro?')
         if (answer == true) {
-          this.$store.dispatch('universidades/delete', item.id)
+          this.$store.dispatch(`${this.source}/delete`, item.id)
         }
       },
       refresh() {
-        this.$store.dispatch(`universidades/loadCollection`)
+        this.$store.dispatch(`${this.source}/loadCollection`)
       }
     },
     computed: {
-      ...mapGetters('universidades', {
-        universidades: 'filteredCollection'
-      })
+      items() {
+        return this.$store.getters[`${this.source}/filteredCollection`]
+      }
     },
     created() {
-      this.$store.dispatch(`universidades/loadCollection`)
+      this.$store.dispatch(`${this.source}/loadCollection`)
     },
   }
 </script>

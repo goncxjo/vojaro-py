@@ -7,6 +7,7 @@ import Login from '@/views/Login.vue'
 import Layout from '@/views/Layout.vue'
 import UniversidadIndex from '@/views/UniversidadIndex.vue'
 import UniversidadEditar from '@/views/UniversidadEditar.vue'
+import AsignaturaIndex from '@/views/AsignaturaIndex.vue'
 
 Vue.use(Router)
 
@@ -54,7 +55,7 @@ export default new Router({
       path: '/asignaturas',
       component: Layout,
       children: [
-        { name: 'asignaturas.index', path: '', component: UniversidadIndex },
+        { name: 'asignaturas.index', path: '', component: AsignaturaIndex },
         { name: 'asignaturas.new', path: '/asignaturas/new', component: UniversidadEditar },
         { name: 'asignaturas.edit', path: '/asignaturas/edit/:id', component: UniversidadEditar },
       ],
