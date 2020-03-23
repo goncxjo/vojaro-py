@@ -49,5 +49,16 @@ export default new Router({
       ],
       beforeEnter: ifAuthenticated,
     },
+    // TODO: adaptar a módulo de asignaturas
+    {
+      path: '/asignaturas',
+      component: Layout,
+      children: [
+        { name: 'asignaturas.index', path: '', component: UniversidadIndex },
+        { name: 'asignaturas.new', path: '/asignaturas/new', component: UniversidadEditar },
+        { name: 'asignaturas.edit', path: '/asignaturas/edit/:id', component: UniversidadEditar },
+      ],
+      beforeEnter: ifAuthenticated,
+    },
   ]
 })

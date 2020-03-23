@@ -2,20 +2,19 @@
   <v-app-bar
     class="app-bar--primary-border primary--text"
     color="white"
-    clipped-right
+    clipped-left
     flat
     app
   >
+    <v-app-bar-nav-icon
+      v-if="showNavIcon"
+      @click="toggleDrawer()"
+      ></v-app-bar-nav-icon>
     <v-toolbar-title>
         <router-link to="/" tag="span">
             <span class="toolbar-title--app">{{ this.title }}</span>
         </router-link>
     </v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-app-bar-nav-icon
-      v-if="showNavIcon"
-      @click="toggleDrawer()"
-      ></v-app-bar-nav-icon>
   </v-app-bar>
 </template>
 

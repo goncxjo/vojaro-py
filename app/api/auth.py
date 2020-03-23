@@ -2,7 +2,7 @@
 from flask import g
 from flask_restx import abort
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
-
+from sqlalchemy.orm.exc import NoResultFound
 from app.models import Usuario
 
 basic_auth = HTTPBasicAuth()
@@ -11,11 +11,12 @@ token_auth = HTTPTokenAuth()
 
 @basic_auth.verify_password
 def verify_password(username, password):
-    user = Usuario.query.filter_by(nombre_usuario=username).one()
-    if user is None:
+    try:
+        user = Usuario.query.filter_by(nombre_usuario=username).one()
+        g.current_user = user
+        return user.check_password(password)
+    except NoResultFound:
         return False
-    g.current_user = user
-    return user.check_password(password)
 
 
 @basic_auth.error_handler

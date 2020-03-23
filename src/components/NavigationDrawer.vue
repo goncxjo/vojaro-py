@@ -3,7 +3,6 @@
       :value="drawer"
       v-if="showItems"
       clipped
-      right
       app
     >
       <v-list
