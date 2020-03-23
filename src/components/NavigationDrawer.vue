@@ -6,7 +6,9 @@
       right
       app
     >
-      <v-list>
+      <v-list
+        class="primary--text"
+      >
         <v-list-item two-line>
           <v-list-item-avatar>
             <img src="https://randomuser.me/api/portraits/men/81.jpg">

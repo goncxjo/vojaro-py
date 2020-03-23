@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-  class="app-bar--primary-border"
+    class="app-bar--primary-border primary--text"
     color="white"
     clipped-right
     flat
@@ -49,7 +49,6 @@
   .toolbar-title--app
     cursor: pointer
     font-weight: 500
-    color: grey
     -webkit-user-select: none
     -moz-user-select: none
     -ms-user-select: none
