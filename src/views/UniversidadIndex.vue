@@ -1,7 +1,5 @@
 <template>
   <div>
-    <UniversidadIndexPanelBusqueda />
-    <br />
     <UniversidadIndexTabla />
   </div>
 </template>

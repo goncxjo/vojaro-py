@@ -1,16 +1,12 @@
 import universidades from '@/api/modules/universidades'
 
 const state = {
-    entity: {
-      id: 0,
-      codigo: '',
-      nombre: ''
-    },
+    entity: {},
+    entities: [],
     filter: {
       codigo: '',
       nombre: ''
     },
-    entities: [],
 }
 
 const getters = {
@@ -45,13 +41,8 @@ const actions = {
           console.log(e)
       })
   },
-  save ({ }, entity) {
-    let payload = {
-        id: entity.id,
-        codigo: entity.codigo,
-        nombre: entity.nombre,
-    }
-
+  save ({ }, payload) {
+    console.log(payload)
     universidades.save(payload)
       .then(response => response)
       .catch(e => {
@@ -71,11 +62,7 @@ const mutations = {
       state.entity = entity
     },
     clean(state) {
-      state.entity = {
-          id: 0,
-          codigo: '',
-          nombre: ''
-      }
+      state.entity = {}
     },
     setCollection(state, entities) {
       state.entities = entities

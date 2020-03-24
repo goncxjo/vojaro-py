@@ -24,8 +24,7 @@
           { text: 'Acciones', value: 'actions', sortable: false },
           { text: 'Codigo', value: 'codigo' },
           { text: 'Nombre', value: 'nombre' },
-        ],
-        errors: []
+        ]
       }
     }
   }

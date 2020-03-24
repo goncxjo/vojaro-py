@@ -3,7 +3,7 @@ from flask import request, jsonify, Response
 from flask_restx import Resource
 
 from app import db
-from app.models import Usuario
+from app.models.usuario import Usuario
 from app.schemas.usuario import UsuarioSchema
 from app.api import api
 from app.api.auth import token_auth

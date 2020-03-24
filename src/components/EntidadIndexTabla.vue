@@ -3,7 +3,8 @@
     <v-data-table
       :headers="headers"
       :items="items"
-      :items-per-page="5"
+      :items-per-page="10"
+      :search="search"
     >
       <template v-slot:top>
         <v-toolbar
@@ -12,10 +13,15 @@
           dark
           flat
         >
-          <v-toolbar-title>Universidades</v-toolbar-title>
-          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            class="mr-4"
+          ></v-text-field>
           <v-btn
-            class="mx-2"
             depressed
             fab
             small
@@ -25,7 +31,6 @@
             <v-icon dark>mdi-refresh</v-icon>
           </v-btn>
           <v-btn
-            class="mx-2"
             depressed
             fab
             dark
@@ -73,11 +78,8 @@
           <v-icon dark>mdi-delete</v-icon>
         </v-btn>
       </template>
-      
       <template v-slot:no-data>
-        <v-alert type="warning">
-          No hay datos
-        </v-alert>
+        Sin datos
       </template>
     </v-data-table>
   </v-card>
@@ -90,6 +92,11 @@
 
   export default {
     props: ['source', 'headers', 'nombreSingular', 'nombrePlural'],
+    data() {
+      return {
+        search: '',
+      }
+    },
     methods: {
       create() {
         router.push({ name: `${this.source}.new`})

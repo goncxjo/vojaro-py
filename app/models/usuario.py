@@ -5,10 +5,10 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
-from app.models import Entity
+from app.models.entidad import EntidadAuditada
 
 
-class Usuario(db.Model, Entity):
+class Usuario(db.Model, EntidadAuditada):
     __tablename__ = 'Usuarios'
 
     nombre_usuario = db.Column(db.String(64), index=True, unique=True)
@@ -18,7 +18,7 @@ class Usuario(db.Model, Entity):
     token_expiration = db.Column(db.DateTime)
 
     def __init__(self, codigo, nombre, creado_por):
-        Entity.__init__(self, creado_por)
+        EntidadAuditada.__init__(self, creado_por)
         self.codigo = codigo
         self.nombre = nombre
 

@@ -3,7 +3,7 @@ from flask import g
 from flask_restx import abort
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 from sqlalchemy.orm.exc import NoResultFound
-from app.models import Usuario
+from app.models.usuario import Usuario
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()

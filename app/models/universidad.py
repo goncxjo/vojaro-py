@@ -1,16 +1,17 @@
 #!flask/bin/python
 from app import db
-from app.models import Entity
+from app.models.entidad import EntidadAuditada
 
 
-class Universidad(db.Model, Entity):
+class Universidad(db.Model, EntidadAuditada):
     __tablename__ = 'Universidades'
 
-    codigo = db.Column(db.String, unique=True)
-    nombre = db.Column(db.String)
+    codigo = db.Column(db.String, unique=True, nullable=False)
+    nombre = db.Column(db.String, nullable=False)
+    departamentos = db.relationship('Departamento', backref='Universidades', lazy='subquery')
 
     def __init__(self, codigo, nombre, creado_por):
-        Entity.__init__(self, creado_por)
+        EntidadAuditada.__init__(self, creado_por)
         self.codigo = codigo
         self.nombre = nombre
 

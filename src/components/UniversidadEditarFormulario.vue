@@ -26,7 +26,6 @@
               :disabled="readonly"
             />
           </v-col>
-
           <v-col
             cols="12"
             md="6"
@@ -38,6 +37,14 @@
               required
               :disabled="readonly"
             />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <UniversidadDepartamentoTabla
+              :items="universidad.departamentos"
+              :readonly="readonly"
+            ></UniversidadDepartamentoTabla>
           </v-col>
         </v-row>
       </v-form>
@@ -66,14 +73,14 @@
 </template>
 
 <script>
-  import store from '@/store'
   import router from '@/router'
-  import CartaFormulario from '@/components/CartaFormulario'
+  import store from '@/store'
   import { mapGetters } from 'vuex'
+  import UniversidadDepartamentoTabla  from '@/components/UniversidadDepartamentoTabla'
 
   export default {
     components: {
-      CartaFormulario
+      UniversidadDepartamentoTabla
     },
     data() {
       return {

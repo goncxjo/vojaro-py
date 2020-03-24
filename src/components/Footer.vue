@@ -1,5 +1,7 @@
 <template>
     <v-footer
+      color="primary"
+      dark
       app
     >
       <span>&copy; 2020</span>

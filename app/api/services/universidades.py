@@ -1,5 +1,5 @@
 from app import db
-from app.models import Universidad
+from app.models.universidad import Universidad
 from app.schemas.universidad import UniversidadSchema
 
 
@@ -23,10 +23,11 @@ def create(data):
 
 
 def update(id, data):
-    schema = UniversidadSchema(only=('codigo', 'nombre')).load(data)
+    schema = UniversidadSchema().load(data)
     universidad = Universidad.query.filter_by(id=id).one()
     universidad.codigo = schema['codigo']
     universidad.nombre = schema['nombre']
+    universidad.departamentos = schema['departamentos']
 
     db.session.commit()
     db.session.close()

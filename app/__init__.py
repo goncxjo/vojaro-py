@@ -27,4 +27,4 @@ def index_client():
     return send_file(entry)
 
 
-from . import models
+from .models import *

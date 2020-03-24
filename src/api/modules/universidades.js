@@ -12,23 +12,18 @@ export default {
         })
     },
     save(entity) {
-        let payload = {
-            codigo: entity.codigo,
-            nombre: entity.nombre,
-        }
-
         if (entity.id) {
             return http({
                 method: 'put',
                 url: `${source}/${entity.id}`,
-                data: payload
+                data: entity
             })
         }
         else {
             return http({
                 method: 'post',
                 url: `${source}/`,
-                data: payload
+                data: entity
             })
         }
     },

@@ -5,7 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from app.api import api
 from app.api.auth import token_auth
-from app.api.serializers import universidad_model
+from app.api.serializers import universidad_list_model, universidad_model
 from app.api.services import universidades as service
 
 ns = api.namespace('universidades', description='Operaciones relacionadas a universidades')
@@ -18,7 +18,7 @@ class SecureResource(Resource):
 @ns.route('/')
 class UniversidadCollection(SecureResource):
     
-    @api.marshal_list_with(universidad_model)
+    @api.marshal_list_with(universidad_list_model)
     def get(self):
         """
         Devuelve una lista de universidades
