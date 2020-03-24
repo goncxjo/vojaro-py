@@ -1,7 +1,9 @@
 import universidades from '@/api/modules/universidades'
 
 const state = {
-    entity: {},
+    entity: {
+      departamentos: []
+    },
     entities: [],
     filter: {
       codigo: '',
@@ -42,7 +44,6 @@ const actions = {
       })
   },
   save ({ }, payload) {
-    console.log(payload)
     universidades.save(payload)
       .then(response => response)
       .catch(e => {
@@ -62,7 +63,9 @@ const mutations = {
       state.entity = entity
     },
     clean(state) {
-      state.entity = {}
+      state.entity = {
+        departamentos: []
+      }
     },
     setCollection(state, entities) {
       state.entities = entities

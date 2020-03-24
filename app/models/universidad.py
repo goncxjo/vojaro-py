@@ -10,8 +10,9 @@ class Universidad(db.Model, EntidadAuditada):
     nombre = db.Column(db.String, nullable=False)
     departamentos = db.relationship('Departamento', backref='Universidades', lazy='subquery')
 
-    def __init__(self, codigo, nombre, creado_por):
-        EntidadAuditada.__init__(self, creado_por)
+    def __init__(self, codigo, nombre):
+        # TODO: ver esto
+        EntidadAuditada.__init__(self, 'HTTP POST REQUEST')
         self.codigo = codigo
         self.nombre = nombre
 

@@ -9,5 +9,8 @@ class Departamento(db.Model, Entidad):
     nombre = db.Column(db.String)
     universidad_id = db.Column(db.Integer, db.ForeignKey('Universidades.id'), nullable=False)
 
+    def __init__(self, nombre=''):
+        self.nombre = nombre
+
     def __repr__(self):
         return '<Departamento {}>'.format(self.nombre)
