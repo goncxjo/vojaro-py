@@ -8,7 +8,11 @@ See `.flaskenv` for default settings.
 
 import os
 
-db_uri = 'postgresql://postgres:root@localhost:5432/vojaro'
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+DB_NAME = 'vojaro'
+DB_PATH = 'postgres:root@localhost:5432/{}'.format(DB_NAME)
+DB_URI = 'postgresql://' + DB_PATH
 
 
 class Config(object):
@@ -21,9 +25,16 @@ class Config(object):
     ROOT_DIR = os.path.dirname(APP_DIR)
     DIST_DIR = os.path.join(ROOT_DIR, 'dist')
 
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or db_uri
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    if FLASK_ENV == 'production':
+        DEBUG = False
+        TESTING = False
 
-    if FLASK_ENV == 'production' and not os.path.exists(DIST_DIR):
-        raise Exception(
-            'DIST_DIR not found: {}'.format(DIST_DIR))
+        if not os.path.exists(DIST_DIR):
+            raise Exception('DIST_DIR not found: {}'.format(DIST_DIR))
+
+    if FLASK_ENV == 'development':
+        DEBUG = True
+        TESTING = False

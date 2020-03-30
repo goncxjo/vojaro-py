@@ -1,6 +1,8 @@
 #!flask/bin/python
 import os
 import base64
+
+from hashlib import md5
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -17,10 +19,10 @@ class Usuario(db.Model, EntidadAuditada):
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
 
-    def __init__(self, codigo, nombre, creado_por):
+    def __init__(self, nombre_usuario, email, creado_por=None):
         EntidadAuditada.__init__(self, creado_por)
-        self.codigo = codigo
-        self.nombre = nombre
+        self.nombre_usuario = nombre_usuario
+        self.email = email
 
     def __repr__(self):
         return '<Usuario {}>'.format(self.nombre_usuario)
@@ -53,3 +55,7 @@ class Usuario(db.Model, EntidadAuditada):
         if user is None or user.token_expiration < datetime.utcnow():
             return None
         return user
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
