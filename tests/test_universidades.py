@@ -1,22 +1,15 @@
-# #!flask/bin/python
-# import os
-# import unittest
+#!flask/bin/python
+import pytest
+import json
 
-# from config import basedir
-# from app import app, db
-# from app.models.universidad import Universidad 
-
-# class TestCase(unittest.TestCase):
-#     def setUp(self):
-#         app.config['TESTING'] = True
-#         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'test.db')
-#         self.app = app.test_client()
-#         db.create_all()
-
-#     def tearDown(self):
-#         db.session.remove()
-#         db.drop_all()
+from app.models.universidad import Universidad
+from app.api.services.universidades import UniversidadService
 
 
-# if __name__ == '__main__':
-#     unittest.main()
+def test_post_model(session):
+    service = UniversidadService(session)
+    request = {'codigo':'undav', 'nombre':'universidad nacional de avellaneda', 'departamentos':[]}
+    data = json.loads(json.dumps(request))
+    universidad = service.create(data)
+
+    assert universidad.id > 0

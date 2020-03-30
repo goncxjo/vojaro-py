@@ -6,10 +6,10 @@ from sqlalchemy.orm.exc import NoResultFound
 from app.api import api
 from app.api.auth import token_auth
 from app.api.serializers import universidad_list_model, universidad_model
-from app.api.services import universidades as service
+from app.api.services.universidades import UniversidadService
 
 ns = api.namespace('universidades', description='Operaciones relacionadas a universidades')
-
+service = UniversidadService()
 
 class SecureResource(Resource):
     method_decorators = [token_auth.verify_token]

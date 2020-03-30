@@ -56,6 +56,6 @@ class Usuario(db.Model, EntidadAuditada):
             return None
         return user
 
-    def avatar(self, size):
+    def avatar(self, size=128):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
