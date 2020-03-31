@@ -11,29 +11,30 @@ from app.api.services.universidades import UniversidadService
 ns = api.namespace('universidades', description='Operaciones relacionadas a universidades')
 service = UniversidadService()
 
+
 class SecureResource(Resource):
     method_decorators = [token_auth.verify_token]
 
 
 @ns.route('/')
 class UniversidadCollection(SecureResource):
-    
+
     @api.marshal_list_with(universidad_list_model)
-    def get(self):
+    def get(self, page=1, per_page=5, ):
         """
         Devuelve una lista de universidades
         """
-        return service.get_all()
+        return service.get_paginated(page=page, per_page=per_page)
 
     @api.expect(universidad_model)
+    @api.marshal_with(universidad_model)
     @api.response(201, 'Universidad creada.')
     def post(self):
         """
         Crea una nueva universidad
         """
         data = request.json
-        service.create(data)
-        return None, 201
+        return service.create(data), 201
 
 
 @ns.route('/<int:id>')
@@ -58,8 +59,7 @@ class UniversidadItem(SecureResource):
         """
         try:
             data = request.json
-            service.update(id, data)
-            return None, 204
+            return service.update(id, data), 204
         except NoResultFound:
             abort(404, 'No existe una universidad con ese identificador')
 

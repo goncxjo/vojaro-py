@@ -1,4 +1,3 @@
-from app import db
 from app.models.universidad import Universidad
 from app.schemas.universidad import UniversidadSchema
 from app.models.departamento import Departamento
@@ -8,6 +7,7 @@ from app.api.services.base import BaseEntidadService
 class UniversidadService(BaseEntidadService):
 
     Entidad = Universidad
+    sortable_columns = {}
 
     def create_entity(self, data):
         schema = UniversidadSchema().load(data)
@@ -62,3 +62,14 @@ class UniversidadService(BaseEntidadService):
                 model = Departamento(schema_agregar['nombre'])
                 model.universidad_id = entity.id
                 self.session.add(model)
+
+    def apply_filters(self, query, filters):
+        if filters is not None:
+            if 'codigo' in filters:
+                query = query.filter(Universidad.codigo.like(filters['codigo']))
+            if 'nombre' in filters:
+                query = query.filter(Universidad.codigo.like(filters['nombre']))
+
+        return query
+
+
