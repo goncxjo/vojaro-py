@@ -1,9 +1,9 @@
 #!flask/bin/python
 from app import db
-from app.models.entidad import EntidadAuditada
+from app.models.entidad import EntidadAuditadaMixin
 
 
-class Universidad(db.Model, EntidadAuditada):
+class Universidad(EntidadAuditadaMixin, db.Model):
     __tablename__ = 'Universidades'
 
     codigo = db.Column(db.String, unique=True, nullable=False)
@@ -11,8 +11,6 @@ class Universidad(db.Model, EntidadAuditada):
     departamentos = db.relationship('Departamento', backref='Universidades', lazy='subquery')
 
     def __init__(self, codigo, nombre):
-        # TODO: ver esto
-        EntidadAuditada.__init__(self, 'HTTP POST REQUEST')
         self.codigo = codigo
         self.nombre = nombre
 

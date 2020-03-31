@@ -1,9 +1,9 @@
 #!flask/bin/python
 from app import db
-from app.models.entidad import Entidad
+from app.models.entidad import EntidadMixin
 
 
-class Departamento(db.Model, Entidad):
+class Departamento(EntidadMixin, db.Model):
     __tablename__ = 'Departamentos'
 
     nombre = db.Column(db.String)
