@@ -68,10 +68,13 @@ class UniversidadService(BaseEntidadService):
 
     def apply_filters(self, query, filters):
         if filters is not None:
+            # TODO: refactorizar esto
             if 'codigo' in filters:
-                query = query.filter(Universidad.codigo.like(filters['codigo']))
+                search = "%{}%".format(filters['codigo'])
+                query = query.filter(Universidad.codigo.ilike(search))
             if 'nombre' in filters:
-                query = query.filter(Universidad.codigo.like(filters['nombre']))
+                search = "%{}%".format(filters['nombre'])
+                query = query.filter(Universidad.nombre.ilike(search))
 
         return query
 

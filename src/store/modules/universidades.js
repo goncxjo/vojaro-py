@@ -6,21 +6,14 @@ const state = {
     },
     entities: [],
     totalEntities: 0,
-    filter: {
-      codigo: '',
-      nombre: ''
-    },
+    filter: {},
 }
 
 const getters = {
     entity: state => state.entity,
     entities: state => state.entities,
     totalEntities: state => state.totalEntities,
-    filteredCollection: state => {
-      return state.entities.filter(u => {
-        return u.codigo.toLowerCase().includes(state.filter.codigo) && u.nombre.toLowerCase().includes(state.filter.nombre)
-      })
-    }
+    filter: state => state.filter,
 }
 
 const actions = {
@@ -86,17 +79,12 @@ const mutations = {
     },
     setCollection(state, entities) {
       state.entities = entities
-      state.filteredCollection = entities
     },
     setTotalCollection(state, total) {
       state.totalEntities = total
     },
     cleanCollection(state) {
       state.entities.length = 0
-    },
-    filterCollection(state, filter) {
-      state.filter.codigo = filter.codigo.toLowerCase()
-      state.filter.nombre = filter.nombre.toLowerCase()
     }
 }
 

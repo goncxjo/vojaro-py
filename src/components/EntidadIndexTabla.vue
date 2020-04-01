@@ -9,40 +9,70 @@
       :search="search"
     >
       <template #top>
-        <v-toolbar
+        <!-- Mover a un slot segun entidad -->
+        <v-card
           class="index-table-header"
           color="primary"
           dark
           flat
         >
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-            class="mr-4"
-          ></v-text-field>
-          <v-btn
-            depressed
-            fab
-            small
-            color="primary"
-            @click="refresh"
+          <v-card-text
+            class="py-0"
           >
-            <v-icon dark>mdi-refresh</v-icon>
-          </v-btn>
-          <v-btn
-            depressed
-            fab
-            dark
-            small
-            color="primary"
-            @click="create"
+            <v-form>
+              <v-row>
+                <v-col cols="6">
+                  <v-text-field
+                    v-model="filter.codigo"
+                    label="Código"
+                    @keyup.enter="refresh()"
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field
+                    v-model="filter.nombre"
+                    label="Nombre"
+                    @keyup.enter="refresh()"
+                  />
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+          <v-card-actions
+            class="pt-0"
           >
-            <v-icon dark>mdi-plus</v-icon>
-          </v-btn>
-        </v-toolbar>
+            <v-spacer></v-spacer>
+            <v-btn
+              depressed
+              fab
+              small
+              color="primary"
+              @click="refresh"
+            >
+              <v-icon dark>mdi-magnify</v-icon>
+            </v-btn>
+            <v-btn
+              depressed
+              fab
+              small
+              color="primary"
+              @click="refresh"
+            >
+              <v-icon dark>mdi-refresh</v-icon>
+            </v-btn>
+            <v-btn
+              depressed
+              fab
+              dark
+              small
+              color="primary"
+              @click="create"
+            >
+              <v-icon dark>mdi-plus</v-icon>
+            </v-btn>
+          </v-card-actions>
+
+        </v-card>
       </template>
     
       <template #item.actions="{ item }">
@@ -129,16 +159,21 @@
         }
       },
       refresh() {
-        this.loading = true
-        this.$store.dispatch(`${this.source}/loadPaginatedCollection`, this.options)
+        this.loading = true;
+        let settings = this.options;
+        settings.filters = this.filter;
+        this.$store.dispatch(`${this.source}/loadPaginatedCollection`, settings)
         .then(() =>  {
           this.loading = false
         })
       }
     },
     computed: {
+      filter() {
+        return this.$store.getters[`${this.source}/filter`]
+      },
       items() {
-        return this.$store.getters[`${this.source}/filteredCollection`]
+        return this.$store.getters[`${this.source}/entities`]
       },
       total() {
         return this.$store.getters[`${this.source}/totalEntities`]

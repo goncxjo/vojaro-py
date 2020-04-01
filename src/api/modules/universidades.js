@@ -12,13 +12,13 @@ export default {
         })
     },
     getPaginated(settings) {
-
         return http({ 
             method: 'get', 
             url: `${source}/`,
             params: {
                 page: settings.page,
                 perPage: settings.itemsPerPage,
+                filters: JSON.stringify(settings.filters),
             }
         })
     },

@@ -1,4 +1,6 @@
 #!flask/bin/python
+import json
+
 from flask import request
 from flask_restx import Resource, abort
 from sqlalchemy.orm.exc import NoResultFound
@@ -26,7 +28,9 @@ class UniversidadCollection(SecureResource):
         """
         page = request.args.get('page', type=int)
         per_page = request.args.get('perPage', type=int)
-        return service.get_paginated(page=page, per_page=per_page)
+        encoded_filters = request.args.get('filters')
+        filters = json.loads(encoded_filters)
+        return service.get_paginated(page=page, per_page=per_page,filters=filters)
 
     @api.expect(universidad_model)
     @api.marshal_with(universidad_model)
