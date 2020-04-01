@@ -20,11 +20,12 @@ class SecureResource(Resource):
 class UniversidadCollection(SecureResource):
 
     @api.marshal_list_with(universidad_list_model)
-    def get(self, page=1, per_page=5, ):
+    def get(self):
         """
         Devuelve una lista de universidades
         """
-        return service.get_paginated(page=page, per_page=per_page)
+        # TODO: devolver paginado
+        return service.get_all()
 
     @api.expect(universidad_model)
     @api.marshal_with(universidad_model)

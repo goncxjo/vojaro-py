@@ -7,7 +7,10 @@ from app.api.services.base import BaseEntidadService
 class UniversidadService(BaseEntidadService):
 
     Entidad = Universidad
-    sortable_columns = {}
+    sortable_columns = {
+        'codigo': 'codigo',
+        'nombre': 'nombre'
+    }
 
     def create_entity(self, data):
         schema = UniversidadSchema().load(data)

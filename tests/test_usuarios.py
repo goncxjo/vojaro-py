@@ -1,5 +1,4 @@
 #!flask/bin/python
-import pytest
 
 from app.models.usuario import Usuario
 
@@ -11,6 +10,7 @@ def test_post_model(session):
     session.commit()
 
     assert usuario.id > 0
+
 
 def test_avatar(session):
     u = Usuario(nombre_usuario='john', email='juan@asengue.com')

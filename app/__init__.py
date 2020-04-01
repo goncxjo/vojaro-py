@@ -1,13 +1,14 @@
 #!flask/bin/python
 import os
 
-from flask import Flask, send_file
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 from .config import Config
+from .queries import EntityQuery
 
-db = SQLAlchemy()
+db = SQLAlchemy(query_class=EntityQuery)
 migrate = Migrate()
 
 
@@ -32,4 +33,4 @@ def create_app(settings={}):
         return app
 
 
-from .models import *
+from app.models import universidad, usuario

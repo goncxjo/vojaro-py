@@ -19,13 +19,12 @@ class BaseEntidadService:
     def get_all(self):
         return self.query().all()
 
-    def get_paginated(self, page=1, per_page=10, filters=None, sort=None):
+    def get_paginated(self, page=1, per_page=9999, filters=None, sort=None):
         entities = self.query()
-        total = entities.count()
         query = self.apply_filters(entities, filters)
         query = self.apply_sort(query, sort)
-        items = query.paginate(page=page, per_page=per_page).items
-        return {'total': total, 'items': items}
+        pagination = query.paginate(error_out=False, page=page, per_page=per_page)
+        return pagination
 
     def apply_sort(self, query, sort):
         if sort is not None:
@@ -40,10 +39,8 @@ class BaseEntidadService:
     def get_sortable_columns(self, sort):
         columns = {}
         for key in sort.keys():
-            if sort[key] != 'asc' or sort[key] != 'desc':
-                del sort[key]
-            elif sort[key] in self.sortable_columns:
-                column = self.sortable_columns[sort[key]]
+            if key in self.sortable_columns and (sort[key] != 'asc' or sort[key] != 'desc'):
+                column = self.sortable_columns[key]
                 columns[column] = sort[key]
         return columns
 
