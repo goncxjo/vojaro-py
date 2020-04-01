@@ -5,7 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from app.api import api
 from app.api.auth import token_auth
-from app.api.serializers import universidad_list_model, universidad_model
+from app.api.serializers import universidad_list_model, universidad_model, universidad_paginated_model
 from app.api.services.universidades import UniversidadService
 
 ns = api.namespace('universidades', description='Operaciones relacionadas a universidades')
@@ -19,13 +19,14 @@ class SecureResource(Resource):
 @ns.route('/')
 class UniversidadCollection(SecureResource):
 
-    @api.marshal_list_with(universidad_list_model)
+    @api.marshal_list_with(universidad_paginated_model)
     def get(self):
         """
         Devuelve una lista de universidades
         """
-        # TODO: devolver paginado
-        return service.get_all()
+        page = request.args.get('page', type=int)
+        per_page = request.args.get('perPage', type=int)
+        return service.get_paginated(page=page, per_page=per_page)
 
     @api.expect(universidad_model)
     @api.marshal_with(universidad_model)

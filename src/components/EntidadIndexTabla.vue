@@ -3,10 +3,12 @@
     <v-data-table
       :headers="headers"
       :items="items"
-      :items-per-page="10"
+      :options.sync="options"
+      :server-items-length="total"
+      :loading="loading"
       :search="search"
     >
-      <template v-slot:top>
+      <template #top>
         <v-toolbar
           class="index-table-header"
           color="primary"
@@ -43,7 +45,7 @@
         </v-toolbar>
       </template>
     
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <v-btn
           class="mx-2"
           depressed
@@ -78,8 +80,11 @@
           <v-icon dark>mdi-delete</v-icon>
         </v-btn>
       </template>
-      <template v-slot:no-data>
+      <template #no-data>
         Sin datos
+      </template>
+      <template #loading>
+        Cargando...
       </template>
     </v-data-table>
   </v-card>
@@ -95,7 +100,17 @@
     data() {
       return {
         search: '',
+        loading: true,
+        options: {},
       }
+    },
+    watch: {
+      options: {
+        handler() {
+          this.refresh()
+        }
+      },
+      deep: true
     },
     methods: {
       create() {
@@ -114,16 +129,23 @@
         }
       },
       refresh() {
-        this.$store.dispatch(`${this.source}/loadCollection`)
+        this.loading = true
+        this.$store.dispatch(`${this.source}/loadPaginatedCollection`, this.options)
+        .then(() =>  {
+          this.loading = false
+        })
       }
     },
     computed: {
       items() {
         return this.$store.getters[`${this.source}/filteredCollection`]
+      },
+      total() {
+        return this.$store.getters[`${this.source}/totalEntities`]
       }
     },
-    created() {
-      this.$store.dispatch(`${this.source}/loadCollection`)
+    mounted() {
+      this.refresh()
     },
   }
 </script>

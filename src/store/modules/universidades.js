@@ -5,6 +5,7 @@ const state = {
       departamentos: []
     },
     entities: [],
+    totalEntities: 0,
     filter: {
       codigo: '',
       nombre: ''
@@ -14,6 +15,7 @@ const state = {
 const getters = {
     entity: state => state.entity,
     entities: state => state.entities,
+    totalEntities: state => state.totalEntities,
     filteredCollection: state => {
       return state.entities.filter(u => {
         return u.codigo.toLowerCase().includes(state.filter.codigo) && u.nombre.toLowerCase().includes(state.filter.nombre)
@@ -43,6 +45,21 @@ const actions = {
           console.log(e)
       })
   },
+  loadPaginatedCollection ({ commit }, settings) {
+    return new Promise((resolve, reject) => {
+      universidades.getPaginated(settings)
+      .then(r => r.data)
+      .then(result => {
+        commit('setCollection', result.items)
+        commit('setTotalCollection', result.total)
+        resolve()
+      })
+      .catch(err => {
+          console.log(err)
+          reject(err)
+      })
+    })
+  },
   save ({ }, payload) {
     universidades.save(payload)
       .then(response => response)
@@ -70,6 +87,9 @@ const mutations = {
     setCollection(state, entities) {
       state.entities = entities
       state.filteredCollection = entities
+    },
+    setTotalCollection(state, total) {
+      state.totalEntities = total
     },
     cleanCollection(state) {
       state.entities.length = 0

@@ -17,8 +17,13 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit('login', user)
             auth.requestToken(user)
+            .then(r => r.data)
             .then(response => {
-                const token = response.data.token
+                // TODO: refactorizar
+                const avatar = response.avatar
+                localStorage.setItem('avatar', avatar)
+
+                const token = response.token
                 localStorage.setItem('user-token', token)
                 commit('success', token)
                 resolve(response)

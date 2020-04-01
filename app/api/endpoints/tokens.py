@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, g
 from flask_restx import Resource
 
 from app.api import api
@@ -14,7 +14,7 @@ class TokenAPI(Resource):
 
     def post(self):
         token = service.get_user_token()
-        return jsonify({'token': token})
+        return jsonify({'token': token, 'avatar': g.current_user.avatar()})
 
     @api.response(204, 'Token revocado.')
     def delete(self):

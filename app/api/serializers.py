@@ -7,6 +7,11 @@ universidad_list_model = api.model('UniversidadList', {
     'nombre': fields.String(required=True),
 })
 
+universidad_paginated_model = api.model('UniversidadPaginated', {
+    'total': fields.Integer(),
+    'items': fields.List(fields.Nested(universidad_list_model), required=True),
+})
+
 departamento_model = api.model('Departamento', {
     'id': fields.Integer(readOnly=True),
     'nombre': fields.String(readOnly=True),

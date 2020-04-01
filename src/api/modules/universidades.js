@@ -11,6 +11,17 @@ export default {
             url: `${source + (id ? '/' + id : '')}`
         })
     },
+    getPaginated(settings) {
+
+        return http({ 
+            method: 'get', 
+            url: `${source}/`,
+            params: {
+                page: settings.page,
+                perPage: settings.itemsPerPage,
+            }
+        })
+    },
     save(entity) {
         if (entity.id) {
             return http({
