@@ -31,9 +31,10 @@ def test_post_model(session):
     universidad_repository.initialize(session)
     service = UniversidadService()
 
-    request = {'codigo': 'undav', 'nombre': 'universidad nacional de avellaneda', 'departamentos': []}
-    data = json.loads(json.dumps(request))
+    data = json.loads(json.dumps(undav))
+    data['departamentos'] = []
     universidad = service.add(data)
+    session.commit()
 
     assert universidad.id > 0
 

@@ -8,6 +8,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from app.api import api
 from app.api.auth import token_auth
 from app.api.serializers import universidad_model, universidad_paginated_model
+from app.api.repositories import save_changes
 from app.api.services.universidad import UniversidadService
 
 ns = api.namespace('universidades', description='Operaciones relacionadas a universidades')
@@ -24,12 +25,13 @@ class UniversidadCollection(SecureResource):
     @api.marshal_list_with(universidad_paginated_model)
     def get(self):
         """
-        Devuelve una lista de universidades
+        Devuelve una lista paginada de universidades
         """
         page = request.args.get('page', type=int)
         per_page = request.args.get('perPage', type=int)
         encoded_filters = request.args.get('filters')
         filters = json.loads(encoded_filters)
+
         return service.get_paginated(page=page, per_page=per_page,filters=filters)
 
     @api.expect(universidad_model)
@@ -40,7 +42,9 @@ class UniversidadCollection(SecureResource):
         Crea una nueva universidad
         """
         data = request.json
-        return service.create(data), 201
+        universidad = service.add(data)
+        save_changes()
+        return universidad, 201
 
 
 @ns.route('/<int:id>')
@@ -65,7 +69,9 @@ class UniversidadItem(SecureResource):
         """
         try:
             data = request.json
-            return service.update(id, data), 204
+            universidad = service.update(id, data)
+            save_changes()
+            return universidad, 204
         except NoResultFound:
             abort(404, 'No existe una universidad con ese identificador')
 
@@ -76,6 +82,7 @@ class UniversidadItem(SecureResource):
         """
         try:
             service.delete(id)
+            save_changes()
             return None, 204
         except NoResultFound:
             abort(404, 'No existe una universidad con ese identificador')
