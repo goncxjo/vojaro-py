@@ -1,5 +1,4 @@
 #!flask/bin/python
-import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -24,7 +23,7 @@ def create_app(settings={}):
     migrate.init_app(app, db)
 
     with app.app_context():
-        from .api import blueprint as api
+        from app.api import blueprint as api
         app.register_blueprint(api)
 
         from .client import client_bp as client

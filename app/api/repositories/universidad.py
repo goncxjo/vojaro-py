@@ -1,18 +1,17 @@
+from .base import BaseEntityRepository
+
 from app.models.universidad import Universidad
-from app.schemas.universidad import UniversidadSchema
 from app.models.departamento import Departamento
-from app.api.services.base import BaseEntidadService
+from app.api.schemas.universidad import UniversidadSchema
 
 
-class UniversidadService(BaseEntidadService):
+class UniversidadRepository(BaseEntityRepository):
 
-    Entidad = Universidad
-    sortable_columns = {
-        'codigo': 'codigo',
-        'nombre': 'nombre'
-    }
+    def __init__(self):
+        self.Entity = Universidad
 
-    def create_entity(self, data):
+    # ADD METHOD
+    def add_entity(self, data):
         schema = UniversidadSchema().load(data)
         universidad = Universidad(schema['codigo'], schema['nombre'])
         self.add_relationships(universidad, schema)
@@ -29,6 +28,7 @@ class UniversidadService(BaseEntidadService):
                 model = Departamento(schema_agregar['nombre'])
                 entity.departamentos.append(model)
 
+    # UPDATE METHOD
     def update_entity(self, id, data):
         universidad = self.get(id)
         schema = UniversidadSchema().load(data)
@@ -65,17 +65,3 @@ class UniversidadService(BaseEntidadService):
                 model = Departamento(schema_agregar['nombre'])
                 model.universidad_id = entity.id
                 self.session.add(model)
-
-    def apply_filters(self, query, filters):
-        if filters is not None:
-            # TODO: refactorizar esto
-            if 'codigo' in filters:
-                search = "%{}%".format(filters['codigo'])
-                query = query.filter(Universidad.codigo.ilike(search))
-            if 'nombre' in filters:
-                search = "%{}%".format(filters['nombre'])
-                query = query.filter(Universidad.nombre.ilike(search))
-
-        return query
-
-

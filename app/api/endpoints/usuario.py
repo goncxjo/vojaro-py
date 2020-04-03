@@ -4,9 +4,9 @@ from flask_restx import Resource
 
 from app import db
 from app.models.usuario import Usuario
-from app.schemas.usuario import UsuarioSchema
 from app.api import api
 from app.api.auth import token_auth
+from app.api.schemas.usuario import UsuarioSchema
 
 ns = api.namespace('usuarios')
 
@@ -28,7 +28,7 @@ class UsuarioCollection(SecureResource):
         user = request.authorization
         posted_usuario = UsuarioSchema(only=('nombre_usuario', 'password'))\
             .load(request.get_json())
-        usuario = Usuario(**posted_usuario, creado_por=user.username)
+        usuario = Usuario(**posted_usuario)
         db.session.add(usuario)
         db.session.commit()
         new_usuario = UsuarioSchema().dump(usuario)

@@ -1,26 +1,27 @@
-from app import db
+from app.api.repositories.base import BaseEntityRepository
 
 
-class BaseEntidadService:
-
-    session = db.session
-    Entidad = None
+class BaseEntityService:
+    repository: BaseEntityRepository = None
     sortable_columns = dict()
 
-    def __init__(self, session=None):
-        if session is not None:
-            self.session = session
-
-    def query(self):
-        if self.Entidad is None:
-            raise NotImplementedError
-        return self.session.query(self.Entidad)
-
     def get_all(self):
-        return self.query().all()
+        return self.repository.get_all()
+
+    def get(self, id):
+        return self.repository.get(id)
+
+    def delete(self, id):
+        self.repository.delete(id)
+
+    def add(self, data):
+        return self.repository.add(data)
+
+    def update(self, id, data):
+        return self.repository.update(id, data)
 
     def get_paginated(self, page=1, per_page=9999, filters=None, sort=None):
-        entities = self.query()
+        entities = self.repository.query()
         query = self.apply_filters(entities, filters)
         query = self.apply_sort(query, sort)
         pagination = query.paginate(error_out=False, page=page, per_page=per_page)
@@ -44,37 +45,5 @@ class BaseEntidadService:
                 columns[column] = sort[key]
         return columns
 
-    def get(self, id):
-        entidad = self.query()\
-            .filter_by(id=id)\
-            .one()
-
-        return entidad
-
-    def delete(self, id):
-        entidad = self.query()\
-            .filter_by(id=id)\
-            .one()
-
-        self.session.delete(entidad)
-        self.session.commit()
-
-    def create(self, data):
-        entidad = self.create_entity(data)
-        self.session.add(entidad)
-        self.session.commit()
-        return entidad
-
-    def update(self, id, data):
-        entidad = self.update_entity(id, data)
-        self.session.commit()
-        return entidad
-
     def apply_filters(self, query, filters):
-        raise NotImplementedError
-
-    def create_entity(self, data):
-        raise NotImplementedError
-
-    def update_entity(self, id, data):
         raise NotImplementedError

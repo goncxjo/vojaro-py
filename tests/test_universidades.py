@@ -1,6 +1,8 @@
 #!flask/bin/python
 import json
-from app.api.services.universidades import UniversidadService
+
+from app.api.repositories import universidad_repository
+from app.api.services.universidad import UniversidadService
 
 undav = {'codigo': 'undav', 'nombre': 'universidad nacional de avellaneda'}
 unaj = {'codigo': 'unaj', 'nombre': 'universidad nacional arturo jauretche'}
@@ -14,10 +16,11 @@ data_unla = json.loads(json.dumps(unla))
 
 
 def test_get_all(session):
-    service = UniversidadService(session)
+    universidad_repository.initialize(session)
+    service = UniversidadService()
 
-    service.create(data_undav)
-    service.create(data_unaj)
+    service.add(data_undav)
+    service.add(data_unaj)
 
     universidades = service.get_all()
     for u in universidades:
@@ -25,21 +28,24 @@ def test_get_all(session):
 
 
 def test_post_model(session):
-    service = UniversidadService(session)
+    universidad_repository.initialize(session)
+    service = UniversidadService()
+
     request = {'codigo': 'undav', 'nombre': 'universidad nacional de avellaneda', 'departamentos': []}
     data = json.loads(json.dumps(request))
-    universidad = service.create(data)
+    universidad = service.add(data)
 
     assert universidad.id > 0
 
 
 def test_get_paginated_without_filtering_and_sorting(session):
-    service = UniversidadService(session)
+    universidad_repository.initialize(session)
+    service = UniversidadService()
 
-    service.create(data_undav)
-    service.create(data_unaj)
-    service.create(data_unq)
-    service.create(data_unla)
+    service.add(data_undav)
+    service.add(data_unaj)
+    service.add(data_unq)
+    service.add(data_unla)
 
     universidades = service.get_paginated(page=2, per_page=1)
 
@@ -52,12 +58,13 @@ def test_get_paginated_without_filtering_and_sorting(session):
 
 
 def test_get_paginated_with_filtering(session):
-    service = UniversidadService(session)
+    universidad_repository.initialize(session)
+    service = UniversidadService()
 
-    service.create(data_undav)
-    service.create(data_unaj)
-    service.create(data_unq)
-    service.create(data_unla)
+    service.add(data_undav)
+    service.add(data_unaj)
+    service.add(data_unq)
+    service.add(data_unla)
 
     universidades = service.get_paginated(filters={'codigo': 'unla'})
 
@@ -69,12 +76,13 @@ def test_get_paginated_with_filtering(session):
 
 
 def test_get_paginated_with_filtering_has_no_result(session):
-    service = UniversidadService(session)
+    universidad_repository.initialize(session)
+    service = UniversidadService()
 
-    service.create(data_undav)
-    service.create(data_unaj)
-    service.create(data_unq)
-    service.create(data_unla)
+    service.add(data_undav)
+    service.add(data_unaj)
+    service.add(data_unq)
+    service.add(data_unla)
 
     universidades = service.get_paginated(filters={'codigo': 'uba'})
 
@@ -82,12 +90,13 @@ def test_get_paginated_with_filtering_has_no_result(session):
 
 
 def test_get_paginated_with_sortering(session):
-    service = UniversidadService(session)
+    universidad_repository.initialize(session)
+    service = UniversidadService()
 
-    service.create(data_undav)
-    service.create(data_unaj)
-    service.create(data_unq)
-    service.create(data_unla)
+    service.add(data_undav)
+    service.add(data_unaj)
+    service.add(data_unq)
+    service.add(data_unla)
 
     universidades = service.get_paginated(sort={'codigo': 'asc'})
     assert universidades.items[0].codigo == 'unaj'

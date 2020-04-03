@@ -26,9 +26,9 @@ api = Api(blueprint)
 #     return {'message': 'No se ha encontrado el registro con el id solicitado'}, 404
 
 
-from .endpoints.tokens import ns as tokens_namespace
-from .endpoints.usuarios import ns as usuarios_namespace
-from .endpoints.universidades import ns as universidades_namespace
+from .endpoints.token import ns as tokens_namespace
+from .endpoints.usuario import ns as usuarios_namespace
+from .endpoints.universidad import ns as universidades_namespace
 
 api.add_namespace(tokens_namespace)
 api.add_namespace(usuarios_namespace)

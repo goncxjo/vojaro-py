@@ -7,8 +7,8 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from app.api import api
 from app.api.auth import token_auth
-from app.api.serializers import universidad_list_model, universidad_model, universidad_paginated_model
-from app.api.services.universidades import UniversidadService
+from app.api.serializers import universidad_model, universidad_paginated_model
+from app.api.services.universidad import UniversidadService
 
 ns = api.namespace('universidades', description='Operaciones relacionadas a universidades')
 service = UniversidadService()

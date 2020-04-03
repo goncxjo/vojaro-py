@@ -1,7 +1,7 @@
 #!flask/bin/python
 from marshmallow import Schema, fields
 
-from app.schemas.departamento import DepartamentoSchema
+from app.api.schemas.departamento import DepartamentoSchema
 
 
 class UniversidadSchema(Schema):

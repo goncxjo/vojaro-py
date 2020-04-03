@@ -3,7 +3,7 @@ from flask_restx import Resource
 
 from app.api import api
 from app.api.auth import basic_auth
-from app.api.services import tokens as service
+from app.api.services import token as service
 
 ns = api.namespace('tokens')
 
