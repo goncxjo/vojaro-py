@@ -5,12 +5,20 @@ const http = axios.create(config)
 
 export default {
     requestToken(user) {
-        return http.post('tokens/', user)
+        return http({
+            method: 'post',
+            url: 'tokens/',
+            data: user
+        })
     },
-    revokeToken(user) {
-        return http.delete('tokens/', user)
+    revokeToken() {
+        return http({ 
+            method: 'delete', 
+            url: 'tokens/',
+        })
     },
     setUser(user) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${ user.token }`
         axios.defaults.auth = {
             username: user.username,
             password: user.password,

@@ -14,8 +14,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import store from '@/store'
   import NavBar from '@/components/NavBar'
   import NavigationDrawer from '@/components/NavigationDrawer'
   import Footer from '@/components/Footer'
@@ -26,24 +24,6 @@
       NavBar,
       NavigationDrawer,
       Footer,
-    },
-    created() {
-      axios.interceptors.response.use(undefined, function (err) {
-        return new Promise(function (resolve, reject) {
-          console.log(err)
-          if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-            this.$store.dispatch('auth/logout')
-            .then(() => {
-              this.$router.push('/login')
-            })
-            .catch(err => {
-              console.log(err)
-            })
-          }
-
-          throw err
-        })
-      })
     },
     methods: {
       toggleDrawer() {

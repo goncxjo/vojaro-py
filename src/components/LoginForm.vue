@@ -25,14 +25,17 @@
           v-on:keyup.enter="login()"
           required
         />
-        
-          <v-btn
-            class="mt-5"
-            color="primary"
-            @click="login()"
-          >
-            Loguearse
-          </v-btn>
+      
+        <v-btn
+          class="mt-5"
+          color="primary"
+          :disabled="!isValid"
+          @click="login()"
+        >
+          Loguearse
+        </v-btn>
+
+        <p>{{ error }}</p>
 
       </v-form>
     </v-row>
@@ -40,9 +43,6 @@
 </template>
 
 <script>
-  import store from '@/store'
-  import router from '@/router'
-
   export default {
     data() {
       return {
@@ -51,14 +51,18 @@
         isValid: true,
         reglasUsuario: [ v => !!v || 'El nombre de usuario es requerido' ],
         reglasPassword: [ v => !!v || 'La contraseña es requerida' ],
+        error: null
       }
     },
     methods: {
       login() {
         const { username, password } = this
-        this.$store.dispatch('auth/login', { username, password })
+        this.$store.dispatch('login', { username, password })
         .then(() => {
           this.$router.push('/')
+        })
+        .catch(err => {
+          this.error = err.response.data.error
         })
       }
     }

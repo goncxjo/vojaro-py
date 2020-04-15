@@ -1,82 +1,57 @@
 import auth from '@/api/modules/auth'
 
 const state = {
-    // TODO: ver esto
-    token: localStorage.getItem('user-token') || '',
-    status: '',
+    user: null
 }
 
 const getters = {
-    // TODO: ver esto
-    isAuthenticated: state => !!state.token,
-    authStatus: state => state.status,
+    isAuthenticated(state) {
+        return !!state.user
+    } 
 }
 
 const actions = {
     login({ commit }, user) {
+        commit('setUserData', user)
         return new Promise((resolve, reject) => {
-            commit('login', user)
             auth.requestToken(user)
-            .then(r => r.data)
-            .then(response => {
+            .then(({ data }) => {
                 // TODO: refactorizar
-                const avatar = response.avatar
-                localStorage.setItem('avatar', avatar)
-
-                const token = response.token
-                localStorage.setItem('user-token', token)
-                commit('success', token)
-                resolve(response)
+                user.token = data.token
+                user.avatar = data.avatar
+                commit('setUserData', user)
+                resolve()
             })
             .catch(err => {
-                commit('error', err)
+                console.log(err)
+                commit('clearUserData')
                 reject(err)
             })
         })
     },
     logout({ commit }) {
-        return new Promise((resolve, reject) => {
-            commit('logout')
-            auth.revokeToken()
-            .then(response => {
-                resolve()
+        return auth.revokeToken()
+            .then(() => {
+                commit('clearUserData')
             })
-            .catch(err => {
-                console.log(err)
-                reject(err)
-            })
-        })
     }
 }
 
 const mutations = {
-    login(state, user) {
-        auth.setUser({
-            username: user.username,
-            password: user.password,
-        })
-        state.status = 'loading'
+    setUserData(state, user) {
+        state.user = user
+        auth.setUser(user)
+        localStorage.setItem('user', JSON.stringify(user))
     },
-    success(state, token) {
-        state.status = 'success'
-        state.token = token
-    },
-    error(state) {
-        auth.cleanUser()
-        localStorage.removeItem('user-token')
-        state.status = 'error'
-    },
-    logout(state) {
-        localStorage.removeItem('user-token')
-        state.status = ''
-        state.token = ''
+    clearUserData() {
+        localStorage.removeItem('user')
+        location.reload()
     }
 }
 
 export default {
-    namespaced: true,
     state,
     getters,
     actions,
     mutations
-  }
+}

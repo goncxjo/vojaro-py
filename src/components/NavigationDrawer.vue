@@ -79,7 +79,7 @@
     },
     methods: {
       logout() {
-        this.$store.dispatch('auth/logout')
+        this.$store.dispatch('logout')
         .then(() => {
           this.$router.push('/login')
         })
@@ -90,11 +90,9 @@
       }
     },
     computed: {
-      showItems() {
-        return store.getters['auth/isAuthenticated']
-      },
-      ...mapGetters('shared', {
-        drawer: 'drawer'
+      ...mapGetters({
+        drawer: 'shared/drawer',
+        showItems: 'isAuthenticated'
       }),
     }
   }
