@@ -12,7 +12,7 @@ const getters = {
 
 const actions = {
     login({ commit }, user) {
-        commit('setUserData', user)
+        auth.setUser(user)
         return new Promise((resolve, reject) => {
             auth.requestToken(user)
             .then(({ data }) => {

@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Layout from '@/views/Layout.vue'
+import RecursoNoEncontrado from '@/views/RecursoNoEncontrado.vue'
+
 import UniversidadIndex from '@/views/UniversidadIndex.vue'
 import UniversidadEditar from '@/views/UniversidadEditar.vue'
 
@@ -39,7 +41,6 @@ const removeAuth = (to, from, next) => {
 
 const router = new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
   routes: [
     {
       path: '/login',
@@ -66,6 +67,15 @@ const router = new Router({
         { name: 'universidades.edit', path: '/universidades/:id/edit', component: UniversidadEditar },
       ],
       beforeEnter: authRequired,
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: RecursoNoEncontrado
+    },
+    {
+      path: '*',
+      redirect: { name: '404' }
     }
   ]
 })

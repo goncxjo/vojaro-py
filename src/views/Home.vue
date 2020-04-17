@@ -1,13 +1,9 @@
 <template>
-    <HelloWorld />
+  <v-container>
+    <v-row class="justify-center">
+      <h1>
+        Bienvenido a vojaro :)
+      </h1>
+    </v-row>
+  </v-container>
 </template>
-
-<script>
-  import HelloWorld from "@/components/HelloWorld";
-
-  export default {
-    components: {
-      HelloWorld
-    }
-  }
-</script>
